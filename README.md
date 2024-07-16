@@ -3,6 +3,11 @@
 1-
 
      CREATE DATABASE Smart_Library_Database;
+
+or if you want to drop it
+
+     DROP DATABASE Smart_Library_Database;
+
 2-
 
        \c smart_library_database
