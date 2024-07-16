@@ -26,7 +26,7 @@
     
     
     CREATE TABLE Books (
-        Book_ID SERIAL PRIMARY KEY,
+        Book_ID SERIAL PRIMARY KEY NOT NULL,
         Title VARCHAR(80) NOT NULL,
         Author_ID INT NOT NULL,
         Genre VARCHAR(50) NOT NULL,
@@ -50,8 +50,8 @@
     VALUES ('Jane Austen', 'English novelist known primarily for her six major novels which interpret, critique and comment upon the British landed gentry at the end of the 18th century.');
     
     
-    INSERT INTO Books (Title, Author_ID, Genre, Description) 
-    VALUES ('Pride and Prejudice', 1, 'fiction', 'The novel follows the character development of Elizabeth Bennet, the dynamic protagonist, who learns about the repercussions of hasty judgments and comes to appreciate the difference between superficial goodness and actual goodness.');
+    INSERT INTO Books (Book_ID ,Title, Author_ID, Genre, Description) 
+    VALUES (1, 'Pride and Prejudice', 1, 'fiction', 'The novel follows the character development of Elizabeth Bennet, the dynamic protagonist, who learns about the repercussions of hasty judgments and comes to appreciate the difference between superficial goodness and actual goodness.');
     
     
     INSERT INTO UserPreferences (User_ID, Preferences) 
