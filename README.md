@@ -18,7 +18,8 @@
      
      CREATE TABLE Authors (
          Author_ID VARCHAR(50) PRIMARY KEY NOT NULL,
-         Name VARCHAR(50) NOT NULL,
+         First_Name VARCHAR(50) NOT NULL,
+          Last_Name VARCHAR(50) NOT NULL,
          Biography VARCHAR(300) NOT NULL
      );
      
@@ -42,7 +43,7 @@
 
 4- Insert data
 
-          INSERT INTO Authors (Author_ID, Name, Biography) 
+          INSERT INTO Authors (Author_ID, First_Name , Last_Name , Biography) 
           VALUES ('1', 'Jane Austen', 'English novelist known primarily for her six major novels which interpret, critique and comment upon the British landed gentry at the end of the 18th century.');
           
           INSERT INTO Books (Book_ID, Title, Author_ID, Genre, Description) 
