@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from . import BooksSchema
-from app.common.database import get_db
+from app.config.database import get_db
 from . import BooksCRUD
 
 app = APIRouter()
@@ -32,7 +32,7 @@ async def delete_book(id: int , db: Session = Depends(get_db)):
    return BooksCRUD.delete_book(db, id)
 
 # GET /recommendations: Retrieve book recommendations for the authenticated user based on their preferences.
-# app.get("/recommnednations/{user_id}", response_model=list[schemas.Books], tag=["recommendations"])
-# async def recommend_book(user_id: int, db: Session = Depends(get_db)):
+@app.get("/recommnedations/{user_id}", response_model=list[BooksSchema.Books], tags=["recommendations"])
+async def recommend_book(user_id: int, db: Session = Depends(get_db)):
    
-#    return BooksCRUD.recommend_book(db, user_id)
+   return BooksCRUD.recommend_book(db, user_id)

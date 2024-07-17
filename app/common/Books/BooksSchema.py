@@ -17,5 +17,4 @@ class BooksCreate(BaseModel):
 class UserPreferences(BaseModel):
    preference_id: int
    user_id: int
-   preference: str
-   
+   preferences: str

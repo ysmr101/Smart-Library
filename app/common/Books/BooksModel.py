@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-from app.common.database import Base
+from app.config.database import Base
 
 class Book(Base):
     __tablename__ = "books"
@@ -13,10 +13,10 @@ class Book(Base):
 
 
 class UserPreference(Base):
-    __tablename__ = "userpreference"
+    __tablename__ = "userpreferences"
 
     preference_id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String, index=True)
-    preference = Column(String, index=True)
-    
+    user_id = Column(Integer, index=True)
+    preferences = Column(String, index=True)
+
     
