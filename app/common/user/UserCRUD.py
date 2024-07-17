@@ -21,9 +21,9 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 
 def update_user(db: Session, user: schema, user_id: str):
-    print("hereeeeeeeeeeeee")
+
     db_user = get_user_byId(db, user_id)
-    print(db_user)
+
     if db_user == None:
         raise HTTPException(status_code=400, detail="Bad Request")
     hashed_password = auth.get_password_hash(user.password)
