@@ -16,7 +16,7 @@ def retrieve_all_authors(db: Session = Depends(get_db), skip: int = 0, limit: in
 
 # GET an author by ID
 @app.get("/authors/{author_id}", response_model=AuthorsSchema.Author, tags=["author"])
-async def retrieve_specific_authors(author_id: int, db: Session = Depends(get_db)):
+async def retrieve_specific_author(author_id: int, db: Session = Depends(get_db)):
     db_author = AuthorsCRUD.read_author(db, author_id=author_id)
     # if db_author is None:
     #     raise HTTPException(status_code=404, detail="Author not found")
