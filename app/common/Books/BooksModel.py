@@ -19,3 +19,4 @@ class UserPreference(Base):
     user_id = Column(String, index=True)
     preference = Column(String, index=True)
     
+    
