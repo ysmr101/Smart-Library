@@ -4,3 +4,8 @@ class Author(BaseModel):
     author_id: int
     name: str
     biography: str
+    # last_name: str
+
+class AuthorAdd(BaseModel):
+    name: str
+    biography: str
