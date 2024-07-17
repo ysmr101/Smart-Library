@@ -18,3 +18,4 @@ class UserPreferences(BaseModel):
    preference_id: int
    user_id: int
    preferences: str
+

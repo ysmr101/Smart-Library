@@ -20,3 +20,4 @@ class UserPreference(Base):
     preferences = Column(String, index=True)
 
     
+    

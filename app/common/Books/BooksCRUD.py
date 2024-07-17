@@ -49,3 +49,4 @@ def recommend_book(db: Session, user_id):
     book = db.query(BooksModel.Book).filter(BooksModel.Book.genre == preference).all()
 
     return book
+

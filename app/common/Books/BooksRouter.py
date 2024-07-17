@@ -36,3 +36,4 @@ async def delete_book(id: int , db: Session = Depends(get_db)):
 async def recommend_book(user_id: int, db: Session = Depends(get_db)):
    
    return BooksCRUD.recommend_book(db, user_id)
+
