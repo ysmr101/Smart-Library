@@ -15,7 +15,7 @@ def read_author(db: Session, author_id: int):
 
 # POST a new author
 def create_author(db: Session, author: AuthorsSchema.AuthorAdd):
-    db_author = AuthorsModel.Author(name=author.name, biography=author.biography)
+    db_author = AuthorsModel.Author(first_name=author.first_name,last_name=author.last_name, biography=author.biography)
     db.add(db_author)
     db.commit()
     db.refresh(db_author)
@@ -25,7 +25,8 @@ def create_author(db: Session, author: AuthorsSchema.AuthorAdd):
 # PUT an author by ID
 def update_author(db: Session, author: AuthorsSchema.AuthorAdd, id):
     author_to_update = db.query(AuthorsModel.Author).filter(AuthorsModel.Author.author_id == id).first()
-    author_to_update.name = author.name
+    author_to_update.first_name = author.first_name
+    author_to_update.last_name = author.last_name
     author_to_update.biography = author.biography
     db.commit()
     db.refresh(author_to_update)

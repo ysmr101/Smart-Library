@@ -2,9 +2,11 @@ from pydantic import BaseModel
 
 class Author(BaseModel):
     author_id: int
-    name: str
+    first_name: str
+    last_name: str
     biography: str
 
 class AuthorAdd(BaseModel):
-    name: str
+    first_name: str
+    last_name: str
     biography: str
