@@ -22,6 +22,16 @@ def create_author(db: Session, author: AuthorsSchema.AuthorAdd):
     return db_author
 
 
+# PUT an author by ID
+def update_author(db: Session, author: AuthorsSchema.AuthorAdd, id):
+    author_to_update = db.query(AuthorsModel.Author).filter(AuthorsModel.Author.author_id == id).first()
+    author_to_update.name = author.name
+    author_to_update.biography = author.biography
+    db.commit()
+    db.refresh(author_to_update)
+    return author_to_update
+
+
 # DELETE an author by ID
 def delete_author(db: Session, author_id: int):
     db_author = db.query(AuthorsModel.Author).filter(AuthorsModel.Author.author_id == author_id).first()
