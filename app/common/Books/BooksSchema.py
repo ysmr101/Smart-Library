@@ -17,7 +17,11 @@ class BooksCreate(BaseModel):
 
 
 class UserPreferences(BaseModel):
-    preference_id: str
+    preference_id: int
     user_id: str
+    preferences: str
+
+class UserPreferencesCreate(BaseModel):
+    # user_id: str
     preferences: str
 

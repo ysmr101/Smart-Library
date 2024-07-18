@@ -58,8 +58,10 @@ def delete_book(db: Session, id):
     return book_to_delete
 
 def recommend_book(db: Session, user_id):
-    preference = db.query(BooksModel.UserPreference).filter(BooksModel.UserPreference.user_id == user_id).first().preferences
-    book = db.query(BooksModel.Book).filter(BooksModel.Book.genre == preference).all()
+    preference = db.query(BooksModel.UserPreference).filter(BooksModel.UserPreference.user_id == user_id).first()
+    if preference is None:
+        raise HTTPException(status_code=404, detail="No preferences found for user")
+    book = db.query(BooksModel.Book).filter(BooksModel.Book.genre == preference.preferences).all()
     if book is None:
         raise HTTPException(status_code=404, detail="No Books in the database match your preferences")
     return book
