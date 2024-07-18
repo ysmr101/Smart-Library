@@ -44,3 +44,6 @@ async def delete_book(_: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=
 async def recommend_book(user_id: str, db: Session = Depends(get_db)):
     return BooksCRUD.recommend_book(db, user_id)
 
+
+
+
