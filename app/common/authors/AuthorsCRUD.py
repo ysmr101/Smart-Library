@@ -28,7 +28,7 @@ def create_author(db: Session, author: AuthorsSchema.AuthorAdd):
         AuthorsModel.Author.last_name == db_author.last_name,
         AuthorsModel.Author.biography == db_author.biography).first()
     if db_other_author is not None:
-        raise HTTPException(status_code=404, detail="Author already added")
+        raise HTTPException(status_code=409, detail="Author already added")
     db.add(db_author)
     db.commit()
     db.refresh(db_author)
