@@ -30,3 +30,5 @@ def log_request(request: Request, db: Session):
     )
     db.add(log_entry)
     db.commit()
+
+

@@ -13,3 +13,5 @@ class AddLogs(BaseModel):
     TimeStamp: str
     Endpoint: str
     Method_Type: str
+
+

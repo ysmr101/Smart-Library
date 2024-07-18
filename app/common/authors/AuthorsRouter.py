@@ -42,3 +42,5 @@ def delete_author(_: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=["Ad
     # if db_author is None:
     #     raise HTTPException(status_code=404, detail="Author not found")
     return db_author
+
+

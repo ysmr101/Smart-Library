@@ -41,3 +41,5 @@ async def update_users_me(user_id: str, user: UserCreate, db: UserCRUD.Session =
 async def add_user_preference(user_id: str, preference: BooksSchema.UserPreferencesCreate, db: Session = Depends(get_db)):
 
     return UserCRUD.add_preference(db, preference, user_id)
+
+
