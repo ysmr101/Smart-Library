@@ -11,7 +11,10 @@ def read_all_authors(db: Session, skip: int = 0, limit: int = 100):
 
 # GET an author by ID
 def read_author(db: Session, author_id: int):
-    return db.query(AuthorsModel.Author).filter(AuthorsModel.Author.author_id == author_id).first()
+    db_author = db.query(AuthorsModel.Author).filter(AuthorsModel.Author.author_id == author_id).first()
+    if db_author is None:
+        raise HTTPException(status_code=404, detail="Author not found")
+    return db_author
 
 
 # POST a new author
@@ -45,3 +48,11 @@ def delete_author(db: Session, author_id: int):
     db.commit()
     return db_author
 
+
+# # GET all authors
+# def read_all_authors(db: Session, skip: int = 0, limit: int = 100):
+#     return db.query(AuthorsModel.Author).offset(skip).limit(limit).all()
+#     # db_author = db.query(AuthorsModel.Author).offset(skip).limit(limit).all()
+#     # if db_author is None:
+#     #     raise HTTPException(status_code=404, detail="No authors found")
+#     # return db_author
