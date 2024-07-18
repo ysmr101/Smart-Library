@@ -1,3 +1,4 @@
+from http.client import HTTPException
 from sqlalchemy.orm import Session
 
 from . import AuthorsSchema, AuthorsModel
@@ -25,6 +26,8 @@ def create_author(db: Session, author: AuthorsSchema.AuthorAdd):
 # PUT an author by ID
 def update_author(db: Session, author: AuthorsSchema.AuthorAdd, id):
     author_to_update = db.query(AuthorsModel.Author).filter(AuthorsModel.Author.author_id == id).first()
+    if author_to_update is None:
+        raise HTTPException(status_code=404, detail="Author not found")
     author_to_update.first_name = author.first_name
     author_to_update.last_name = author.last_name
     author_to_update.biography = author.biography
@@ -36,6 +39,9 @@ def update_author(db: Session, author: AuthorsSchema.AuthorAdd, id):
 # DELETE an author by ID
 def delete_author(db: Session, author_id: int):
     db_author = db.query(AuthorsModel.Author).filter(AuthorsModel.Author.author_id == author_id).first()
+    if db_author is None:
+        raise HTTPException(status_code=404, detail="Author not found")
     db.delete(db_author)
     db.commit()
     return db_author
+
