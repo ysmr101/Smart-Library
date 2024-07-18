@@ -44,8 +44,15 @@ or if you want to drop it
          Preferences VARCHAR(200) NOT NULL,
          CONSTRAINT key_user FOREIGN KEY (User_ID) REFERENCES Users(User_ID)
      );
-     
 
+     CREATE TABLE Logs (
+         Logs_ID SERIAL PRIMARY KEY NOT NULL,
+         User_ID VARCHAR(50) NOT NULL,
+         TimeStamp VARCHAR(50) NOT NULL,
+         Endpoint VARCHAR(200) NOT NULL,
+         Method_Type VARCHAR(200) NOT NULL,
+         CONSTRAINT key_user FOREIGN KEY (User_ID) REFERENCES Users(User_ID)
+     );
 
 4- Insert data
 
