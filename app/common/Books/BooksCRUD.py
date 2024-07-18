@@ -19,7 +19,7 @@ def create_book(db: Session, book: BooksSchema.BooksCreate):
     # Check if author exists first
     author = db.query(AuthorsModel.Author).filter(AuthorsModel.Author.author_id == book.author_id).first()
     if author is None:
-        raise HTTPException(status_code=404, detail="Author doesnt exist")
+        raise HTTPException(status_code=401, detail="Author doesnt exist")
     db_book = BooksModel.Book(
                            title=book.title,
                            genre=book.genre,
@@ -40,6 +40,9 @@ def update_book(db: Session, book: BooksSchema.BooksCreate, id):
     book_to_update = db.query(BooksModel.Book).filter(BooksModel.Book.book_id == id).first()
     if book_to_update is None:
         raise HTTPException(status_code=404, detail="Book not found")
+    author = db.query(AuthorsModel.Author).filter(AuthorsModel.Author.author_id == book.author_id).first()
+    if author is None:
+        raise HTTPException(status_code=401, detail="Author doesnt exist")
     book_to_update.title = book.title
     book_to_update.genre = book.genre
     book_to_update.description = book.description

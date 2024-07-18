@@ -5,7 +5,7 @@ from main import app
 
 
 client = TestClient(app)
-
+auth_book = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb2hhbW1lZCIsImV4cCI6MTcyMTMwMzc2NX0.2y2_rGj4Mv0HdF0o_MBfQAcBdlw14m5SCue6lZrH5J4"
 
 ## BOOKS TESTING ##
 
@@ -17,40 +17,90 @@ def test_read_main():
 def test_read_books():
     response = client.get("/books/")
     assert response.status_code == 200
+
+# This will pass the test if the book table is empty
+def test_read_books_fail():
+    response = client.get("/books/")
+    assert response.status_code == 404
+    assert response.json() == {"detail": "No Books"}
     
 def test_create_book():
     response = client.post(
         "/books/",
-        headers={"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb2hhbW1lZCIsImV4cCI6MTcyMTI5NjUwOX0.gvlITbNlIuv-Pu0ol3UBCvZTDthhsmsqjx6pdXsrMKA"},
+        headers={"Authorization": auth_book},
         json={"title": "Foo Bar", "genre": "History", "description": "The Foo Barters", "author_id": 1},
     )
     assert response.status_code == 200
     assert response.json() == {"title": "Foo Bar", "genre": "History", "description": "The Foo Barters", "author_id": 1, "book_id": response.json()["book_id"]}
 
+# test author doesnt exist error handling
+def test_create_book_fail():
+    response = client.post(
+        "/books/",
+        headers={"Authorization": auth_book},
+        json={"title": "Foo Bar", "genre": "History", "description": "The Foo Barters", "author_id": 2},
+    )
+    assert response.status_code == 401
+    assert response.json() == {"detail": "Author doesnt exist"}
+
 def test_read_single_book():
     response = client.get("/books/1")
     assert response.status_code == 200
     assert response.json() == {
-  "book_id": 1,
-  "title": "Pride and Prejudice",
-  "genre": "Fiction",
-  "description": "The novel follows the character development of Elizabeth Bennet, the dynamic protagonist, who learns about the repercussions of hasty judgments and comes to appreciate the difference between superficial goodness and actual goodness.",
-  "author_id": 1
-}
-    
+    "book_id": 1,
+    "title": "Pride and Prejudice",
+    "genre": "Fiction",
+    "description": "The novel follows the character development of Elizabeth Bennet, the dynamic protagonist, who learns about the repercussions of hasty judgments and comes to appreciate the difference between superficial goodness and actual goodness.",
+    "author_id": 1
+    }
+
+
+def test_read_single_book():
+    response = client.get("/books/100")
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Book not found"}
+
 def test_update_book():
     response = client.put("/books/10",
-        headers={"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb2hhbW1lZCIsImV4cCI6MTcyMTI5NjUwOX0.gvlITbNlIuv-Pu0ol3UBCvZTDthhsmsqjx6pdXsrMKA"},
+        headers={"Authorization": auth_book},
         json={"title": "Fee B", "genre": "History", "description": "The Fee E", "author_id": 1},
     )
     assert response.status_code == 200
     assert response.json() == {"title": "Fee B", "genre": "History", "description": "The Fee E", "author_id": 1}
 
+# book_id
+def test_update_book_fail1():
+    response = client.put("/books/100",
+        headers={"Authorization": auth_book},
+        json={"title": "Fee B", "genre": "History", "description": "The Fee E", "author_id": 1},
+    )
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Book not found"}
+
+# Author
+def test_update_book_fail2():
+    response = client.put("/books/10",
+        headers={"Authorization": auth_book},
+        json={"title": "Fee B", "genre": "History", "description": "The Fee E", "author_id": 100},
+    )
+    assert response.status_code == 401
+    assert response.json() == {"detail": "Author doesnt exist"}
+
+
+
 def test_delete_book():
-    response = client.delete("/books/13",
-        headers={"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb2hhbW1lZCIsImV4cCI6MTcyMTI5NjUwOX0.gvlITbNlIuv-Pu0ol3UBCvZTDthhsmsqjx6pdXsrMKA"},
+    response = client.delete("/books/15",
+        headers={"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtb2hhbW1lZCIsImV4cCI6MTcyMTMwMDUwNH0.RRxCVg7ChH_wUlGJ3J0s-eVjaj-dfy3zRpD5z6QTlkE"},
     )
     assert response.status_code == 200
+
+# book_id
+def test_delete_book_fail():
+    response = client.delete("/books/100",
+        headers={"Authorization": auth_book},
+    )
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Book not found"}
 
 def test_recommend_book():
     response = client.get("/recommnedations/1")
@@ -71,6 +121,14 @@ def test_recommend_book():
     "author_id": 1
   }
     ]
+
+# No prefeences for user
+def test_recommend_book_fail1():
+    response = client.get("/recommnedations/2")
+    assert response.status_code == 404
+    assert response.json() == {"detail": "No preferences found for user"}
+
+
 
 
 ## AUTHORS TESTING ##
