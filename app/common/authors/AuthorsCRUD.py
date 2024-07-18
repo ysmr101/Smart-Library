@@ -1,4 +1,4 @@
-from http.client import HTTPException
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from . import AuthorsSchema, AuthorsModel
@@ -6,11 +6,14 @@ from . import AuthorsSchema, AuthorsModel
 
 # GET all authors
 def read_all_authors(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(AuthorsModel.Author).offset(skip).limit(limit).all()
+    db_authors = db.query(AuthorsModel.Author).offset(skip).limit(limit).all()
+    if db_authors is None:
+        raise HTTPException(status_code=404,detail="No authors found")
+    return db_authors
 
 
 # GET an author by ID
-def read_author(db: Session, author_id: int):
+def read_author(db: Session, author_id):
     db_author = db.query(AuthorsModel.Author).filter(AuthorsModel.Author.author_id == author_id).first()
     if db_author is None:
         raise HTTPException(status_code=404, detail="Author not found")
@@ -47,12 +50,3 @@ def delete_author(db: Session, author_id: int):
     db.delete(db_author)
     db.commit()
     return db_author
-
-
-# # GET all authors
-# def read_all_authors(db: Session, skip: int = 0, limit: int = 100):
-#     return db.query(AuthorsModel.Author).offset(skip).limit(limit).all()
-#     # db_author = db.query(AuthorsModel.Author).offset(skip).limit(limit).all()
-#     # if db_author is None:
-#     #     raise HTTPException(status_code=404, detail="No authors found")
-#     # return db_author

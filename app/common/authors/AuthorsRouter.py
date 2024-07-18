@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from app.common.authors import AuthorsSchema, AuthorsCRUD
 from sqlalchemy.orm import Session
 from app.common.config.database import get_db
-from typing import Annotated
+from typing import Annotated, Union
 from app.common.utils import auth
 
 app = APIRouter()
@@ -13,14 +13,10 @@ def retrieve_all_authors(db: Session = Depends(get_db), skip: int = 0, limit: in
     authors = AuthorsCRUD.read_all_authors(db, skip=skip, limit=limit)
     return authors
 
-
-# GET an author by ID
+# GET a specific author
 @app.get("/authors/{author_id}", response_model=AuthorsSchema.Author, tags=["author"])
 async def retrieve_specific_author(author_id: int, db: Session = Depends(get_db)):
-    db_author = AuthorsCRUD.read_author(db, author_id=author_id)
-    # if db_author is None:
-    #     raise HTTPException(status_code=404, detail="Author not found")
-    return db_author
+    return AuthorsCRUD.read_author(db, author_id)
 
 
 # POST a new author
