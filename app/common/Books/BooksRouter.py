@@ -16,7 +16,7 @@ def retrieve_all_books(skip: int = 0, limit: int = 100, db: Session = Depends(ge
 
 
 # POST /books: Create a new book record (Admin only).
-@app.post("/books", tags=["books"])
+@app.post("/books/", tags=["books"])
 async def create_book(_: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=["Admin"]))],book: BooksSchema.BooksCreate, db: Session = Depends(get_db)):
     return BooksCRUD.create_book(db, book)
 
