@@ -3,6 +3,8 @@ from fastapi import HTTPException
 import uuid
 from app.common.utils import auth
 from app.common.user import UserModel, UserSchema
+from app.common.Books import BooksSchema, BooksModel
+
 
 model = UserModel
 schema = UserSchema.UserCreate
@@ -50,3 +52,13 @@ def create_user(db: Session, user: schema):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def add_preference(db: Session, preference: BooksSchema.UserPreferencesCreate , user_id: str):
+    db_preference = BooksModel.UserPreference(
+                           user_id=user_id,
+                           preferences=preference.preferences,)
+    db.add(db_preference)
+    db.commit()
+    db.refresh(db_preference)
+    return db_preference

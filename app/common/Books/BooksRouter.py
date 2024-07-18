@@ -23,7 +23,7 @@ async def create_book(_: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=
 
 # GET /books/:id: Retrieve details of a specific book by its ID.
 @app.get("/books/{id}", response_model=BooksSchema.Books, tags=["books"])
-async def retrieve_single_book(_: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=["Admin"]))],id: int, db: Session = Depends(get_db)):
+async def retrieve_single_book(id: int, db: Session = Depends(get_db)):
     return BooksCRUD.get_single_book(db, id)
 
 

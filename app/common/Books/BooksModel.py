@@ -16,7 +16,7 @@ class Book(Base):
 class UserPreference(Base):
     __tablename__ = "userpreferences"
 
-    preference_id = Column(String, primary_key=True, autoincrement=True)
+    preference_id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(String, index=True)
     preferences = Column(String, index=True)
 
