@@ -23,6 +23,12 @@ def read_author(db: Session, author_id):
 # POST a new author
 def create_author(db: Session, author: AuthorsSchema.AuthorAdd):
     db_author = AuthorsModel.Author(first_name=author.first_name,last_name=author.last_name, biography=author.biography)
+    db_other_author = db.query(AuthorsModel.Author).filter(
+        AuthorsModel.Author.first_name == db_author.first_name,
+        AuthorsModel.Author.last_name == db_author.last_name,
+        AuthorsModel.Author.biography == db_author.biography).first()
+    if db_other_author is not None:
+        raise HTTPException(status_code=404, detail="Author already added")
     db.add(db_author)
     db.commit()
     db.refresh(db_author)
