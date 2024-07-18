@@ -130,3 +130,42 @@ def test_delete_nonexisting_author():
         headers={"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBbm91ZCIsImV4cCI6MTcyMTMwMjE5MH0.N21BIcmrjsY-W6tQXHjIrxiDAtPz-PHrvFKRFiTesdg"},
     )
     assert response.status_code == 404
+## UserRouter   ##
+def test_read_users_me():
+    response = client.get("/users/me/",
+        headers={"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEiLCJleHAiOjE3MjEzMDEzMzd9.FRcm8v0G4Cs7xhw4NY73mnx7TmerI83uTnoFldolhNQ"},
+       )
+    assert response.status_code == 200
+
+
+def test_login_for_access_token():
+    response = client.post(
+        "/users/login",
+        headers={
+            "accept": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+    data={
+        "grant_type": "password",
+        "username": "admin1",
+        "password": "admin1",
+        "scope": "",
+        "client_id": "string",
+        "client_secret": "string"
+    },)
+    assert response.status_code == 200
+
+def test_create_user():
+    response = client.post( "/users/register", json={ "user_name": "55", "password": "55" },)
+    assert response.status_code == 200
+
+def test_update_users_me():
+    response = client.put("/users/me/a7616b61-b04e-4be2-ae85-20c92aa13f2b",
+                           json={"user_name": "22", "password": "22"}, )
+    assert response.status_code == 200
+
+
+def test_add_user_preference():
+    response = client.post("/users/me/a7616b61-b04e-4be2-ae85-20c92aa13f2b",
+                          json={"preferences": "History"}, )
+    assert response.status_code == 200
