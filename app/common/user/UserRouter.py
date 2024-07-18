@@ -17,7 +17,7 @@ def create_user(user: UserCreate, db: UserCRUD.Session = Depends(get_db)):
     return UserCRUD.create_user(db, user)
 
 
-@app.post("/login", tags=["users"])
+@app.post("/users/login", tags=["users"])
 async def login_for_access_token(form_data: Annotated[auth.OAuth2PasswordRequestForm, Depends()],
                                  db: UserCRUD.Session = Depends(get_db)) -> auth.Token:
     users = UserCRUD.get_users(db, 0, 100)
