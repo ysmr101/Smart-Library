@@ -13,9 +13,6 @@ app = APIRouter()
 
 @app.post("/users/register", tags=["users"])
 def create_user(user: UserCreate, db: UserCRUD.Session = Depends(get_db)):
-    db_user = UserCRUD.get_user_by_username(db, user.user_name)
-    if db_user:
-        raise HTTPException(status_code=400, detail="Username is already registered")
     return UserCRUD.create_user(db, user)
 
 
@@ -39,5 +36,4 @@ async def update_users_me(user_id: str, user: UserCreate, db: UserCRUD.Session =
 
 @app.post("/users/me/{user_id}", tags=["users"])
 async def add_user_preference(user_id: str, preference: BooksSchema.UserPreferencesCreate, db: Session = Depends(get_db)):
-
     return UserCRUD.add_preference(db, preference, user_id)
