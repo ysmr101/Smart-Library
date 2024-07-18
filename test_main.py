@@ -224,6 +224,6 @@ def test_update_users_me():
 
 
 def test_add_user_preference():
-    response = client.post("/users/me/a7616b61-b04e-4be2-ae85-20c92aa13f2b",
-                          json={"preferences": "History"}, )
+    response = client.post("/users/me/preference/76c3eba2-fde9-44cc-81af-90ea9d8363b0",
+                          json={"preferences": "Fiction"}, )
     assert response.status_code == 200
