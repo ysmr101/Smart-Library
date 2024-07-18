@@ -71,3 +71,10 @@ or if you want to drop it
      -- Insert data into UserPreferences
      INSERT INTO UserPreferences (Preference_ID, User_ID, Preferences) 
      VALUES ('1', '1', 'biographies');
+
+
+## Unit Testing:
+ # Authors
+
+<img width="1112" alt="Screenshot 1446-01-12 at 2 12 38 PM" src="https://github.com/user-attachments/assets/a6b190f8-1734-41d6-b8af-62d5e1218cc0">
+
