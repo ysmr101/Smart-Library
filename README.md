@@ -39,7 +39,7 @@ or if you want to drop it
      );
      
      CREATE TABLE UserPreferences (
-         Preference_ID VARCHAR(50) PRIMARY KEY NOT NULL,
+         Preference_ID SERIAL PRIMARY KEY NOT NULL,
          User_ID VARCHAR(50) NOT NULL,
          Preferences VARCHAR(200) NOT NULL,
          CONSTRAINT key_user FOREIGN KEY (User_ID) REFERENCES Users(User_ID)
