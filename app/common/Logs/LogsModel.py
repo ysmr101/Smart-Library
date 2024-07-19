@@ -1,4 +1,4 @@
-from sqlalchemy import  Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from app.common.config.database import Base
 from sqlalchemy.orm import relationship
 
@@ -11,7 +11,3 @@ class Author(Base):
     TimeStamp = Column(String, unique=True, index=True)
     Endpoint = Column(String, unique=True, index=True)
     Method_Type = Column(String, default=True)
-
-
-
-

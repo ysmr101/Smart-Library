@@ -5,6 +5,8 @@ from app.common.utils import auth
 from app.common.user.UserModel import User
 from app.common.user.UserSchema import UserCreate
 from app.common.Books import BooksSchema, BooksModel
+
+
 def get_user_byId(db: Session, user_id: str):
     user = db.query(User).filter(User.user_id == user_id).first()
     if not user:
@@ -18,12 +20,15 @@ def get_user_by_username(db: Session, user_name: str):
         raise HTTPException(status_code=404, detail="Not found")
     return user
 
+
 def check_register(db: Session, user_name: str):
     if db.query(User).filter(User.username == user_name).first():
         raise HTTPException(status_code=400, detail="Username is already registered")
 
+
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(User).offset(skip).limit(limit).all()
+
 
 def update_user(db: Session, user: UserCreate, user_id: str):
     db_user = get_user_byId(db, user_id)
@@ -37,26 +42,32 @@ def update_user(db: Session, user: UserCreate, user_id: str):
     db.refresh(db_user)
     return db_user
 
+
 def create_user(db: Session, user: UserCreate):
     check_register(db, user.user_name)
     uid = uuid.uuid4()
     stringified_uid = str(uid)
     hashed_password = auth.get_password_hash(user.password)
 
-    db_user = User(user_id=stringified_uid,
-                         username=user.user_name,
-                         password_hash=hashed_password,
-                         role="User"
-                         )
+    db_user = User(
+        user_id=stringified_uid,
+        username=user.user_name,
+        password_hash=hashed_password,
+        role="User",
+    )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
 
-def add_preference(db: Session, preference: BooksSchema.UserPreferencesCreate , user_id: str):
+
+def add_preference(
+    db: Session, preference: BooksSchema.UserPreferencesCreate, user_id: str
+):
     db_preference = BooksModel.UserPreference(
-                           user_id=user_id,
-                           preferences=preference.preferences,)
+        user_id=user_id,
+        preferences=preference.preferences,
+    )
     db.add(db_preference)
     db.commit()
     db.refresh(db_preference)

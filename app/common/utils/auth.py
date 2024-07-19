@@ -3,15 +3,17 @@ from typing import Annotated
 from sqlalchemy.orm import Session
 import jwt
 from fastapi import Depends, HTTPException, status, APIRouter
-from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from app.common.user import UserModel, UserCRUD
 from app.common.config.database import get_db
+
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
 
 class Token(BaseModel):
     access_token: str
@@ -21,9 +23,12 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: str | None = None
 
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
 app = APIRouter()
+
+
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
@@ -31,7 +36,8 @@ def verify_password(plain_password, hashed_password):
 def get_password_hash(password):
     return pwd_context.hash(password)
 
-def authenticate_user(db: Session, username: str,  password: str):
+
+def authenticate_user(db: Session, username: str, password: str):
     user = UserCRUD.get_user_by_username(db, username)
     if not user:
         return False
@@ -50,8 +56,9 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.api_jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-#Should probably be a service
-def access_token(db: Session, username: str,  password: str):
+
+# Should probably be a service
+def access_token(db: Session, username: str, password: str):
     user = authenticate_user(db, username, password)
 
     if not user:
@@ -66,7 +73,10 @@ def access_token(db: Session, username: str,  password: str):
     )
     return Token(access_token=access_token, token_type="bearer")
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
+
+async def get_current_user(
+    token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)
+):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -85,6 +95,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
         raise credentials_exception
     return user
 
+
 class RoleChecker:
     def __init__(self, allowed_roles):
         self.allowed_roles = allowed_roles
@@ -94,4 +105,5 @@ class RoleChecker:
             return True
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="You don't have enough permissions")
+            detail="You don't have enough permissions",
+        )

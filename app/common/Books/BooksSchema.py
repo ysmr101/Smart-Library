@@ -21,7 +21,7 @@ class UserPreferences(BaseModel):
     user_id: str
     preferences: str
 
+
 class UserPreferencesCreate(BaseModel):
     # user_id: str
     preferences: str
-

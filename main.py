@@ -8,7 +8,7 @@ from app.common.config.database import engine, Base
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
+
 app.include_router(UserRouter.app)
 app.include_router(AuthorsRouter.app)
 app.include_router(BooksRouter.app)
-
