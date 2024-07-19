@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class Logs(BaseModel):
     Logs_ID: int
     User_ID: str
@@ -7,11 +8,10 @@ class Logs(BaseModel):
     Endpoint: str
     Method_Type: str
 
+
 class AddLogs(BaseModel):
     Logs_ID: int
     User_ID: str
     TimeStamp: str
     Endpoint: str
     Method_Type: str
-
-

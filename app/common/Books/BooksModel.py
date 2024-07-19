@@ -8,7 +8,7 @@ class Book(Base):
 
     book_id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, index=True)
-    genre = Column(String, index=True, default='history')
+    genre = Column(String, index=True, default="history")
     description = Column(String, index=True)
     author_id = Column(Integer, index=True)
 
@@ -19,5 +19,3 @@ class UserPreference(Base):
     preference_id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(String, index=True)
     preferences = Column(String, index=True)
-
-
