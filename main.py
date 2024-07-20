@@ -5,6 +5,7 @@ from app.common.authors import AuthorsRouter
 from app.common.Books import BooksRouter
 from app.common.config.database import engine, Base
 
+
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
