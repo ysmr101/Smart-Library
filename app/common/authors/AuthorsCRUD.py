@@ -9,6 +9,7 @@ def read_all_authors(db: Session, skip: int = 0, limit: int = 100):
     db_authors = db.query(AuthorsModel.Author).offset(skip).limit(limit).all()
     if db_authors is None:
         raise HTTPException(status_code=404, detail="No authors found")
+    
     return db_authors
 
 
