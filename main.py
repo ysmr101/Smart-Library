@@ -17,7 +17,7 @@ app.include_router(BooksRouter.app)
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"Hello": "Anoud"}
 
 
 @app.get("/healthcheck")
