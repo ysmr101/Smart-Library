@@ -12,3 +12,12 @@ app = FastAPI()
 app.include_router(UserRouter.app)
 app.include_router(AuthorsRouter.app)
 app.include_router(BooksRouter.app)
+
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+@app.get("/healthcheck")
+def healthz():
+    return True
