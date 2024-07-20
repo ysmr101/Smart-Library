@@ -2,9 +2,9 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 import uuid
 from app.common.utils import auth
-from app.common.user.UserModel import User
-from app.common.user.UserSchema import UserCreate
-from app.common.Books import BooksSchema, BooksModel
+from app.user.UserModel import User
+from app.user.UserSchema import UserCreate
+from app.Books import BooksSchema, BooksModel
 
 
 def get_user_byId(db: Session, user_id: str):

@@ -1,7 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-
-from . import AuthorsSchema, AuthorsModel
+from app.authors import AuthorsSchema, AuthorsModel
 
 
 # GET all authors
