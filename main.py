@@ -19,6 +19,7 @@ app.include_router(BooksRouter.app)
 def read_root():
     return {"Hello": "World"}
 
+
 @app.get("/healthcheck")
 def healthz():
     return True
