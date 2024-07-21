@@ -9,19 +9,19 @@ class Books(BaseModel):
     author_id: int
 
 
-class BooksCreate(BaseModel):
+class Books_create(BaseModel):
     title: str
     genre: str
     description: str
     author_id: int
 
 
-class UserPreferences(BaseModel):
+class User_preferences(BaseModel):
     preference_id: int
     user_id: str
     preferences: str
 
 
-class UserPreferencesCreate(BaseModel):
+class User_preferences_create(BaseModel):
     # user_id: str
     preferences: str

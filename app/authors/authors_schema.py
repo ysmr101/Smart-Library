@@ -8,7 +8,7 @@ class Author(BaseModel):
     biography: str
 
 
-class AuthorAdd(BaseModel):
+class Author_add(BaseModel):
     first_name: str
     last_name: str
     biography: str

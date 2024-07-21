@@ -1,11 +1,11 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from app.authors import AuthorsSchema, AuthorsModel
+from app.authors import authors_schema, authors_model
 
 
 # GET all authors
 def read_all_authors(db: Session, skip: int = 0, limit: int = 100):
-    db_authors = db.query(AuthorsModel.Author).offset(skip).limit(limit).all()
+    db_authors = db.query(authors_model.Author).offset(skip).limit(limit).all()
     if db_authors is None:
         raise HTTPException(status_code=404, detail="No authors found")
     return db_authors
@@ -14,8 +14,8 @@ def read_all_authors(db: Session, skip: int = 0, limit: int = 100):
 # GET an author by ID
 def read_author(db: Session, author_id):
     db_author = (
-        db.query(AuthorsModel.Author)
-        .filter(AuthorsModel.Author.author_id == author_id)
+        db.query(authors_model.Author)
+        .filter(authors_model.Author.author_id == author_id)
         .first()
     )
     if db_author is None:
@@ -24,18 +24,18 @@ def read_author(db: Session, author_id):
 
 
 # POST a new author
-def create_author(db: Session, author: AuthorsSchema.AuthorAdd):
-    db_author = AuthorsModel.Author(
+def create_author(db: Session, author: authors_schema.Author_add):
+    db_author = authors_model.Author(
         first_name=author.first_name,
         last_name=author.last_name,
         biography=author.biography,
     )
     db_other_author = (
-        db.query(AuthorsModel.Author)
+        db.query(authors_model.Author)
         .filter(
-            AuthorsModel.Author.first_name == db_author.first_name,
-            AuthorsModel.Author.last_name == db_author.last_name,
-            AuthorsModel.Author.biography == db_author.biography,
+            authors_model.Author.first_name == db_author.first_name,
+            authors_model.Author.last_name == db_author.last_name,
+            authors_model.Author.biography == db_author.biography,
         )
         .first()
     )
@@ -48,10 +48,10 @@ def create_author(db: Session, author: AuthorsSchema.AuthorAdd):
 
 
 # PUT an author by ID
-def update_author(db: Session, author: AuthorsSchema.AuthorAdd, id):
+def update_author(db: Session, author: authors_schema.Author_add, id):
     author_to_update = (
-        db.query(AuthorsModel.Author)
-        .filter(AuthorsModel.Author.author_id == id)
+        db.query(authors_model.Author)
+        .filter(authors_model.Author.author_id == id)
         .first()
     )
     if author_to_update is None:
@@ -67,8 +67,8 @@ def update_author(db: Session, author: AuthorsSchema.AuthorAdd, id):
 # DELETE an author by ID
 def delete_author(db: Session, author_id: int):
     db_author = (
-        db.query(AuthorsModel.Author)
-        .filter(AuthorsModel.Author.author_id == author_id)
+        db.query(authors_model.Author)
+        .filter(authors_model.Author.author_id == author_id)
         .first()
     )
     if db_author is None:

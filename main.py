@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from app.user import UserRouter
-from app.authors import AuthorsRouter
-from app.Books import BooksRouter
+from app.user import user_router
+from app.authors import authors_router
+from app.Books import books_router
 from app.common.config.database import engine, Base
 
 
@@ -9,9 +9,9 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 
-app.include_router(UserRouter.app)
-app.include_router(AuthorsRouter.app)
-app.include_router(BooksRouter.app)
+app.include_router(user_router.app)
+app.include_router(authors_router.app)
+app.include_router(books_router.app)
 
 
 @app.get("/")
