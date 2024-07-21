@@ -58,7 +58,7 @@ def create_user(db: Session, user: User_create):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return db_user
+    return {"user_id": stringified_uid, "username": user.user_name, "role": "User"}
 
 
 def add_preference(
