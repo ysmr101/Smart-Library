@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
 from pydantic import BaseModel
-from app.user import UserModel, UserCRUD
+from app.user import user_model, user_crud
 from app.common.config.database import get_db
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
@@ -38,7 +38,7 @@ def get_password_hash(password):
 
 
 def authenticate_user(db: Session, username: str, password: str):
-    user = UserCRUD.get_user_by_username(db, username)
+    user = user_crud.get_user_by_username(db, username)
     if not user:
         return False
     if not verify_password(password, user.password_hash):
@@ -90,7 +90,7 @@ async def get_current_user(
         token_data = TokenData(username=username)
     except InvalidTokenError:
         raise credentials_exception
-    user = UserCRUD.get_user_by_username(db, token_data.username)
+    user = user_crud.get_user_by_username(db, token_data.username)
     if user is None:
         raise credentials_exception
     return user
@@ -100,7 +100,7 @@ class RoleChecker:
     def __init__(self, allowed_roles):
         self.allowed_roles = allowed_roles
 
-    def __call__(self, user: Annotated[UserModel.User, Depends(get_current_user)]):
+    def __call__(self, user: Annotated[user_model.User, Depends(get_current_user)]):
         if user.role in self.allowed_roles:
             return True
         raise HTTPException(
