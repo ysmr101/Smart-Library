@@ -10,8 +10,8 @@ app = APIRouter()
 
 # GET /books: Retrieve a list of all books.
 @app.get("/books/", response_model=list[books_schema.Books], tags=["books"])
-def retrieve_all_books(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return books_crud.get_books(db, skip=skip, limit=limit)
+def retrieve_all_books(start: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return books_crud.get_books(db, start=start, limit=limit)
 
 
 # POST /books: Create a new book record (Admin only).
