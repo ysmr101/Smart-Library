@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.common.config.database import get_db
-from app.Books import books_crud, books_schema
+from app.common.configs.database import get_db
+from app.books import books_crud, books_schema
 from typing import Annotated
 from app.common.utils import auth
 
