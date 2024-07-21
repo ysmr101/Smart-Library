@@ -9,7 +9,7 @@ class Logs(BaseModel):
     Method_Type: str
 
 
-class AddLogs(BaseModel):
+class Add_logs(BaseModel):
     Logs_ID: int
     User_ID: str
     TimeStamp: str

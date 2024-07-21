@@ -12,7 +12,7 @@ class Book(Base):
     author_id = Column(Integer, index=True)
 
 
-class UserPreference(Base):
+class User_preference(Base):
     __tablename__ = "userpreferences"
 
     preference_id = Column(Integer, primary_key=True, autoincrement=True)

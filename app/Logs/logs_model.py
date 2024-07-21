@@ -3,7 +3,7 @@ from app.common.config.database import Base
 from sqlalchemy.orm import relationship
 
 
-class Author(Base):
+class Logs(Base):
     __tablename__ = "logs"
 
     Logs_ID = Column(Integer, primary_key=True)
