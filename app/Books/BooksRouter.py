@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.common.config.database import get_db
-from app.common.Books import BooksCRUD, BooksSchema
+from app.Books import BooksCRUD, BooksSchema
 from typing import Annotated
 from app.common.utils import auth
-from typing import Union
 
 app = APIRouter()
 

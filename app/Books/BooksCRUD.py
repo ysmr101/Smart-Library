@@ -1,13 +1,9 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from . import BooksModel
-from . import BooksSchema
-from app.common.authors import AuthorsCRUD
+from app.Books import BooksModel, BooksSchema
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from . import BooksModel
-from . import BooksSchema
-from app.common.authors import AuthorsCRUD, AuthorsModel, AuthorsSchema
+from app.authors import AuthorsModel
 
 
 def get_books(db: Session, skip: int = 0, limit: int = 100):

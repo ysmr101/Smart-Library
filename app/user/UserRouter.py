@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.common.user.UserSchema import UserCreate
-from app.common.user import UserCRUD, UserModel
+from app.user.UserSchema import UserCreate
+from app.user import UserCRUD, UserModel
 from app.common.config.database import get_db
 from typing import Annotated
 from app.common.utils import auth
 from sqlalchemy.orm import Session
-from app.common.Books import BooksSchema
+from app.Books import BooksSchema
 
 
 app = APIRouter()

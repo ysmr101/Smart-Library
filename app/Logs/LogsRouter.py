@@ -3,7 +3,7 @@ from fastapi import Request, Depends
 from functools import wraps
 from sqlalchemy.orm import Session
 from app.common.config.database import get_db
-from app.common.Logs import LogsModel, LogsSchema
+from app.Logs import LogsModel, LogsSchema
 
 
 def log_request_decorator(func):
