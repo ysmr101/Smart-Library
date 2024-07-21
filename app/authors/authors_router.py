@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from app.authors import authors_schema, authors_crud
 from sqlalchemy.orm import Session
-from app.common.config.database import get_db
+from app.common.configs.database import get_db
 from typing import Annotated, Union
 from app.common.utils import auth
 

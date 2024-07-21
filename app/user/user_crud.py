@@ -4,7 +4,7 @@ import uuid
 from app.common.utils import auth
 from app.user.user_model import User
 from app.user.user_schema import User_create
-from app.Books import books_schema, books_model
+from app.books import books_schema, books_model
 
 
 def get_user_byId(db: Session, user_id: str):
