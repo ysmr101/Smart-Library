@@ -5,8 +5,10 @@ from app.authors import authors_model
 from app.Books import books_services
 
 
-def get_books(db: Session, skip: int = 0, limit: int = 100):
-    list_of_books = db.query(books_model.Book).offset(skip).limit(limit).all()
+def get_books(db: Session, start: int = 0, limit: int = 100):
+    start = abs(start)
+    limit = min(max(limit, 1), 100)
+    list_of_books = db.query(books_model.Book).offset(start).limit(limit).all()
     books_services.check_books(repr(list_of_books))
     return list_of_books
 
