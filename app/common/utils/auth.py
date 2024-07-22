@@ -95,9 +95,9 @@ def access_token(response: Response, db: Session, username: str, password: str):
     return Token(access_token=access_token, token_type="bearer")
 
 
+
 class JWTError:
     pass
-
 
 def get_current_user(
     token: HTTPAuthorizationCredentials = Security(security),

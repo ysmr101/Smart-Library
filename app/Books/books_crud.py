@@ -1,4 +1,3 @@
-from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.Books import books_model, books_schema
 from sqlalchemy.orm import Session
@@ -6,22 +5,21 @@ from app.authors import authors_model
 from app.Books import books_services
 
 
-def get_books(db: Session, skip: int = 0, limit: int = 100):
-    list_of_books = db.query(books_model.Book).offset(skip).limit(limit).all()
-    if list_of_books is None:
-        raise HTTPException(status_code=404, detail="No Books")
+def get_books(db: Session, start: int = 0, limit: int = 100):
+    start = abs(start)
+    limit = min(max(limit, 1), 100)
+    list_of_books = db.query(books_model.Book).offset(start).limit(limit).all()
+    books_services.check_books(repr(list_of_books))
     return list_of_books
 
 
 def create_book(db: Session, book: books_schema.Books_create):
-    # Check if author exists first
     author = (
         db.query(authors_model.Author)
         .filter(authors_model.Author.author_id == book.author_id)
         .first()
     )
-    if author is None:
-        raise HTTPException(status_code=401, detail="Author doesnt exist")
+    books_services.check_author(author)
     db_book = books_model.Book(
         title=book.title,
         genre=book.genre,
@@ -38,8 +36,7 @@ def get_single_book(db: Session, id):
     book_to_get = (
         db.query(books_model.Book).filter(books_model.Book.book_id == id).first()
     )
-    if book_to_get is None:
-        raise HTTPException(status_code=404, detail="Book not found")
+    books_services.check_single_book(book_to_get)
     return book_to_get
 
 
@@ -47,15 +44,13 @@ def update_book(db: Session, book: books_schema.Books_create, id):
     book_to_update = (
         db.query(books_model.Book).filter(books_model.Book.book_id == id).first()
     )
-    if book_to_update is None:
-        raise HTTPException(status_code=404, detail="Book not found")
+    books_services.check_single_book(book_to_update)
     author = (
         db.query(authors_model.Author)
         .filter(authors_model.Author.author_id == book.author_id)
         .first()
     )
-    if author is None:
-        raise HTTPException(status_code=401, detail="Author doesnt exist")
+    books_services.check_author(author)
     book_to_update.title = book.title
     book_to_update.genre = book.genre
     book_to_update.description = book.description
@@ -69,8 +64,7 @@ def delete_book(db: Session, id):
     book_to_delete = (
         db.query(books_model.Book).filter(books_model.Book.book_id == id).first()
     )
-    if book_to_delete is None:
-        raise HTTPException(status_code=404, detail="Book not found")
+    books_services.check_single_book(book_to_delete)
     db.delete(book_to_delete)
     db.commit()
     return book_to_delete
@@ -82,15 +76,11 @@ def recommend_book(db: Session, user_id):
         .filter(books_model.User_preference.user_id == user_id)
         .first()
     )
-    if preference is None:
-        raise HTTPException(status_code=404, detail="No preferences found for user")
-    book = (
+    books_services.check_preference(preference)
+    books = (
         db.query(books_model.Book)
         .filter(books_model.Book.genre == preference.preferences)
         .all()
     )
-    if book is None:
-        raise HTTPException(
-            status_code=404, detail="No Books in the database match your preferences"
-        )
-    return book
+    books_services.check_books(repr(books))
+    return books
