@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 
 from app.user.user_schema import User_create
 from app.user import user_crud, user_model
@@ -19,15 +19,16 @@ def create_user(user: User_create, db: user_crud.Session = Depends(get_db)):
 
 @app.post("/users/login", tags=["users"])
 async def login_for_access_token(
+    response: Response,
     form_data: Annotated[auth.OAuth2PasswordRequestForm, Depends()],
     db: user_crud.Session = Depends(get_db),
 ) -> auth.Token:
-    return auth.access_token(db, form_data.username, form_data.password)
+    return auth.access_token(response, db, form_data.username, form_data.password)
 
 
 @app.get("/users/me/", tags=["users"])
 async def read_users_me(
-    current_user: Annotated[user_model.User, Depends(auth.get_current_user)],
+    current_user: Annotated[user_model.User, Depends(auth.get_current_user2)],
 ):
     return current_user
 
