@@ -28,7 +28,7 @@ async def login_for_access_token(
 
 @app.get("/users/me/", tags=["users"])
 async def read_users_me(
-    current_user: Annotated[user_model.User, Depends(auth.get_current_user2)],
+    current_user: Annotated[user_model.User, Depends(auth.get_current_user)],
 ):
     return {
         "user_id": current_user.user_id,
