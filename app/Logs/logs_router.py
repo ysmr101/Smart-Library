@@ -2,8 +2,8 @@ from datetime import datetime
 from fastapi import Request, Depends
 from functools import wraps
 from sqlalchemy.orm import Session
-from app.common.config.database import get_db
-from app.Logs import logs_model, logs_schema
+from app.common.configs.database import get_db
+from app.logs import logs_model, logs_schema
 
 
 def log_request_decorator(func):

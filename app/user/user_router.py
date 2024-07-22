@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 
 from app.user.user_schema import User_create
 from app.user import user_crud, user_model
-from app.common.config.database import get_db
+from app.common.configs.database import get_db
 from typing import Annotated
 from app.common.utils import auth
 from sqlalchemy.orm import Session
-from app.Books import books_schema
+from app.books import books_schema
 
 
 app = APIRouter()

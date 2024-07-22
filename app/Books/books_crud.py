@@ -1,8 +1,7 @@
 from sqlalchemy.orm import Session
-from app.Books import books_model, books_schema
+from app.books import books_model, books_schema,books_services
 from sqlalchemy.orm import Session
 from app.authors import authors_model
-from app.Books import books_services
 
 
 def get_books(db: Session, start: int = 0, limit: int = 100):
