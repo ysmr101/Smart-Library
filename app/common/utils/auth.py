@@ -99,7 +99,7 @@ class JWTError:
     pass
 
 
-def get_current_user2(
+def get_current_user(
     token: HTTPAuthorizationCredentials = Security(security),
     db: Session = Depends(get_db),
 ):
@@ -122,7 +122,7 @@ class RoleChecker(BaseException):
     def __init__(self, allowed_roles):
         self.allowed_roles = allowed_roles
 
-    def __call__(self, user: Annotated[user_model.User, Depends(get_current_user2)]):
+    def __call__(self, user: Annotated[user_model.User, Depends(get_current_user)]):
         if user.role in self.allowed_roles:
             return True
         raise HTTPException(
