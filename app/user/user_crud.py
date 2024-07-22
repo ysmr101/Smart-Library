@@ -40,7 +40,11 @@ def update_user(db: Session, user: User_create, user_id: str):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return db_user
+    return {
+        "user_id": db_user.user_id,
+        "username": db_user.username,
+        "role": db_user.role,
+    }
 
 
 def create_user(db: Session, user: User_create):
@@ -58,7 +62,7 @@ def create_user(db: Session, user: User_create):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return db_user
+    return {"user_id": stringified_uid, "username": user.user_name, "role": "User"}
 
 
 def add_preference(
