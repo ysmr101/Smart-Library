@@ -1,3 +1,17 @@
+To run the LLM API do the following:
+1-
+
+     Run the back end as is: python -m uvicorn main:app --reload
+     
+2-
+
+       Run the streamlit app, in chromadb_task folder: streamlit run app.py
+
+
+
+
+
+
 ## How to create  the postgresql database :
 
 1-
