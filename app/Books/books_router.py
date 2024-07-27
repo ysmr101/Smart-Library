@@ -4,8 +4,17 @@ from app.common.config.database import get_db
 from app.Books import books_crud, books_schema
 from typing import Annotated
 from app.common.utils import auth
+from fastapi.responses import StreamingResponse
+from app.common.chromadb_task import mistral
 
 app = APIRouter()
+
+
+# GET /books: Retrieve a list of all books.
+@app.post("/books/mistral", tags=["books"])
+def retrieve_mistral_book(query: str):
+
+    return StreamingResponse(mistral.query(query))
 
 
 # GET /books: Retrieve a list of all books.
