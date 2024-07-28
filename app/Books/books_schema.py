@@ -25,3 +25,7 @@ class User_preferences(BaseModel):
 class User_preferences_create(BaseModel):
     # user_id: str
     preferences: str
+
+
+class QueryModel(BaseModel):
+    query: str

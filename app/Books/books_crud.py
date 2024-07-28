@@ -3,6 +3,7 @@ from app.Books import books_model, books_schema
 from sqlalchemy.orm import Session
 from app.authors import authors_model
 from app.Books import books_services
+from app.chromavdb import books_collection
 
 
 def get_books(db: Session, start: int = 0, limit: int = 100):
@@ -29,6 +30,10 @@ def create_book(db: Session, book: books_schema.Books_create):
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
+
+    text = f"book title: {book.title}. description: {book.description}."
+
+    books_collection.upsert(documents=[text], ids=["99999"])
     return db_book
 
 

@@ -1,11 +1,26 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.common.config.database import get_db
-from app.Books import books_crud, books_schema
+from app.Books import books_crud, books_schema, books_services
 from typing import Annotated
 from app.common.utils import auth
+from fastapi.responses import StreamingResponse
+import streamlit as st
+
 
 app = APIRouter()
+
+
+# Use for intents
+@app.get("/intents_query", tags=["model"])
+def query(query: str):
+    return books_services.get_recommendation3(query)
+
+
+# Use for streaming and chat history book recommendations
+@app.get("/query", tags=["model"])
+def old_query(query: str):
+    return StreamingResponse(books_services.get_recommendation2(query))
 
 
 # GET /books: Retrieve a list of all books.
