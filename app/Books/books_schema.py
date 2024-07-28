@@ -7,6 +7,7 @@ class Books(BaseModel):
     genre: str
     description: str
     author_id: int
+    thumbnail: str
 
 
 class Books_create(BaseModel):

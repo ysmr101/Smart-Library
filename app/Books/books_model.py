@@ -10,6 +10,7 @@ class Book(Base):
     genre = Column(String, index=True, default="history")
     description = Column(String, index=True)
     author_id = Column(Integer, index=True)
+    thumbnail = Column(String, index=True)
 
 
 class User_preference(Base):

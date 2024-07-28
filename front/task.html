@@ -3,56 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Smart Library</title>
-    <link rel="icon" href=
-"library.png"
-          type="image/x-icon">
+    <link rel="icon" href="library.png" type="image/x-icon">
     <style>
-        .container{
-
+        .container {
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .img {
-            width: 30%;
+            width: 50%;
+            height: auto;
         }
         .column {
-  float: left;
-  width: 25%;
-  padding: 0 10px;
-}
-
-/* Remove extra left and right margins, due to padding */
-.row {      margin: 0 -5px;
+            float: left;
+            width: 22%;
+            padding: 0 10px;
+        }
+        .row {
+            margin: 0 -5px;
             display: flex;
             align-items: center;
             justify-content: center;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-
-/* Style the counter cards */
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  text-align: center;
-  background-color: #f1f1f1;
-}
+            flex-wrap: wrap;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            text-align: center;
+            background-color: #f1f1f1;
+            margin-bottom: 20px; /* Added bottom margin for spacing */
+        }
     </style>
 </head>
 <body>
-<div class = container>
+<div class="container">
     <h1>Welcome to The Smart Library</h1>
 </div>
 
-
-<div class = container>
+<div class="container">
     <form action="submit" style="width: 80%" method="post">
         <input type="text" style="width: 100%"><br><br>
         <button type="submit">Submit</button>
@@ -60,103 +53,32 @@
 </div>
 <br><br>
 
-<div class="row">
-  <div class="column">
-    <div class="card">
-       <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-       <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-      <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-       <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-    </div>
-   </div>
+<div class="row" id="book-list">
 
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('http://127.0.0.1:8000/books/?start=0&limit=100')
+    .then(response => response.json())
+    .then(books => {
+        const container = document.getElementById('book-list');
+        books.forEach(book => {
+            console.log(book.title)
+            const colDiv = document.createElement('div');
+            colDiv.className = 'column';
+            colDiv.innerHTML = `
+                <div class="card">
+                    <img src="${book.thumbnail}" alt="cover" class="img">
+                    <p>${book.title}</p>
+                </div>
+            `;
+            container.appendChild(colDiv);
+        });
+    })
+    .catch(error => console.error('Error loading the books:', error));
+});
+</script>
 
-<br><br>
-<div class="row">
-  <div class="column">
-    <div class="card">
-       <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-       <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-      <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-       <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-    </div>
-   </div>
-
-</div>
-
-<br><br>
-<div class="row">
-  <div class="column">
-    <div class="card">
-       <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-       <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-      <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-    </div>
-  </div>
-
-  <div class="column">
-    <div class="card">
-       <img src="/front/book-cover.jpg" alt="cover" class="img">
-  <p>book title</p>
-    </div>
-   </div>
-
-</div>
 </body>
 </html>
