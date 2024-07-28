@@ -1,3 +1,16 @@
+Run the Server using: python -m uvicorn main:app --reload
+
+Run Streamlit in another terminal using: streamlit run streamlitt.py
+
+Change the path in streamlitt.py if you want to try the intents endpoint (it's not complete)
+
+
+
+
+
+
+
+
 ## How to create  the postgresql database :
 
 1-
