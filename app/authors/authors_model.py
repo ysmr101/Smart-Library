@@ -7,6 +7,5 @@ class Author(Base):
     __tablename__ = "authors"
 
     author_id = Column(Integer, primary_key=True)
-    first_name = Column(String, unique=True, index=True)
-    last_name = Column(String, unique=True, index=True)
+    name = Column(String, unique=True, index=True)
     biography = Column(String, default=True)

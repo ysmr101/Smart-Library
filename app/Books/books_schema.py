@@ -6,6 +6,7 @@ class Books(BaseModel):
     title: str
     genre: str
     description: str
+    thumbnail: str
     author_id: int
 
 

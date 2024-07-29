@@ -26,15 +26,13 @@ def read_author(db: Session, author_id):
 # POST a new author
 def create_author(db: Session, author: authors_schema.Author_add):
     db_author = authors_model.Author(
-        first_name=author.first_name,
-        last_name=author.last_name,
+        name=author.name,
         biography=author.biography,
     )
     db_other_author = (
         db.query(authors_model.Author)
         .filter(
-            authors_model.Author.first_name == db_author.first_name,
-            authors_model.Author.last_name == db_author.last_name,
+            authors_model.Author.name == db_author.name,
             authors_model.Author.biography == db_author.biography,
         )
         .first()

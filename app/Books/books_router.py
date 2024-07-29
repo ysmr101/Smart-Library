@@ -5,7 +5,6 @@ from app.Books import books_crud, books_schema, books_services
 from typing import Annotated
 from app.common.utils import auth
 from fastapi.responses import StreamingResponse
-import streamlit as st
 
 
 app = APIRouter()

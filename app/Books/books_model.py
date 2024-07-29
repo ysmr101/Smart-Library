@@ -9,6 +9,11 @@ class Book(Base):
     title = Column(String, index=True)
     genre = Column(String, index=True, default="history")
     description = Column(String, index=True)
+    thumbnail = Column(String)
+    published_year = Column(String)
+    average_rating = Column(String)
+    num_pages = Column(String)
+    ratings_count = Column(String)
     author_id = Column(Integer, index=True)
 
 

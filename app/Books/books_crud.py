@@ -31,9 +31,9 @@ def create_book(db: Session, book: books_schema.Books_create):
     db.commit()
     db.refresh(db_book)
 
-    text = f"book title: {book.title}. description: {book.description}."
+    # text = f"book title: {book.title}. description: {book.description}."
 
-    books_collection.upsert(documents=[text], ids=["99999"])
+    # books_collection.upsert(documents=[text], ids=["99999"])
     return db_book
 
 
