@@ -32,6 +32,11 @@
   margin-bottom: 20px; /* Added bottom margin for spacing */
 }
 
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .App {
   text-align: center;
