@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
+
+.chatbot_button {
+    position: fixed;
+    bottom: 2%;
+    right: 1%;
+    background-color: transparent;
+    z-index: 1000;
+}
+
+.chatbot_button:hover {
+    background-color: transparent;
+}
+
+.chatBox {
+    position: fixed;
+    bottom: 10%;
+    right: 5.5%;
+    width: 30%;
+    height: 70%;
+    background-color: black;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.chatBox_inner {
+    background-color: #172242;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    border-radius: 7px;
+    margin-bottom: 4%;
+    margin-left: 4%;
+    margin-right: 4%;
+    overflow-y: scroll;
+}
+
+.chatBox_header {
+    color: white;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 20px; 
+    line-height: 20px; 
+    margin-top: 3%;
+    margin-bottom: 3%;
+    background-color: transparent;
+    text-align: center;
+}
+
+.chatBox_content {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat_message {
+    background-color: #445A9A;
+    padding-left: 2%;
+    padding-right: 2%;
+    max-width: 70%;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 18px; 
+    line-height: 20px;    
+    border-radius: 10px;
+}
+
+.chat_message.bot {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-left: 3%;
+    color: white;
+    align-self: flex-start;
+    text-align: left;
+}
+
+.chat_message.user {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-right: 3%;
+    align-self: flex-end;
+    color: white;
+    text-align: left;
+}
+
+.chatBox_input {
+    background-color: #445A9A;
+    border: none;
+    border-radius: 10px;
+    padding: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 10%;
+    margin-bottom: 3%;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.chatBox_input input {
+    background-color: transparent;
+    border: none;
+    width: 90%;
+    height: 100%;
+    color: white;
+    margin-left: 3%;
+    outline: none;
+}
+
+.chatBox_input input::placeholder{
+    color: white;
+}
+
+.chatBox_input button {
+    background-color: transparent;
+    color: wheat;
+}
+
+@keyframes blink {
+    0% {
+      opacity: 0.2;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.2;
+    }
+}
+  
+.dots {
+display: flex;
+justify-content: center;
+align-items: center;
+bottom: 20%;
+position: absolute;
+margin-left: 3%;
+}
+
+.dots span {
+display: block;
+width: 8px;
+height: 8px;
+margin: 0 4px;
+background-color: #fff;
+border-radius: 50%;
+animation: blink 1.4s infinite both;
+}
+
+.dots span:nth-child(2) {
+animation-delay: 0.2s;
+}
+
+.dots span:nth-child(3) {
+animation-delay: 0.4s;
+}

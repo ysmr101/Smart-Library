@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
+
+.adminPage {
+    background-color: #15171B;
+}
+
+.adminPanel {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    background-color: transparent;
+    color: white;
+    height: 5%;
+    text-align: center;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500; 
+    font-size: 20px; 
+    line-height: 24px; 
+}
+
+.books_and_users {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 3%;
+    margin-right: 3%;
+
+}
+
+.books {
+    background-color: #172242;
+    width: 73%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    margin-bottom: 3%;
+}
+
+.books_title {
+    color: white;
+    height: 1em;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500; 
+    font-size: 20px; 
+    line-height: 24px; 
+    /* background-color: aqua; */
+    margin-left: 2%;
+    margin-top: 3%;
+}
+
+.books_content {
+    margin-top: 3%;
+    /* background-color: red; */
+    margin-left: 2%;
+    margin-right: 2%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.book {
+    display: flex;
+    flex-direction: row;
+    height: 5em;
+    /* background-color: aqua; */
+    width: 100%;
+    margin-top: -1.8em;
+
+}
+
+.book_title {
+    color: white;
+    width: 15%;
+    overflow: scroll;
+    border: 1px solid #ccc;
+    border-left: none;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* background-color: red; */
+}
+
+.book_author {
+    color: white;
+    width: 20%;
+    overflow: scroll;
+    border: 1px solid #ccc;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px; 
+    text-align: center;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.book_year {
+    color: white;
+    width: 5%;
+    border: 1px solid #ccc;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px; 
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book_description {
+
+    color: white;
+    width: 55%;
+    overflow-y: scroll;
+    /* background-color: red; */
+    border: 1px solid #ccc;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* padding-top: 0%; */
+    /* padding-left: 0.6%;
+    padding-right: 0.6%; */
+    
+}
+
+.book_rating {
+    color: white;
+    width: 5%;
+    /* background-color: red; */
+    border: 1px solid #ccc;
+    border-right: none;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px; 
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.users {
+    background-color: #172242;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    margin-bottom: 3%;
+}
+
+.users_title {
+    color: white;
+    height: 1em;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500; 
+    font-size: 20px; 
+    line-height: 24px; 
+    /* background-color: aqua; */
+    margin-left: 5%;
+    margin-top: 10%;
+}
+
+.users_content {
+    margin-top: 5%;
+    /* background-color: red; */
+    margin-left: 2%;
+    margin-right: 2%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+}
+
+.user {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ccc;
+
+}
+
+.user_remove {
+    width: 15%;
+    background-color: transparent;
+}
+
+.user_icon {
+    color: white;
+    width: 15%;
+    /* background-color: red; */
+    align-content: center;
+}
+
+.user_name {
+    color: white;
+    width: 50%;
+    /* background-color: red; */
+}
+
+.user_role {
+    color: white;
+    width: 20%;
+
+}
+
+.headers {
+    display: flex;
+    flex-direction: row;
+    height: 5em;
+    width: 100%;
+    margin-top: -1.8em;
+}
+
+#header {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500; 
+    font-size: 14px; 
+    background-color: #445A9A;
+    border-top: none;
+}

@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
+
+.header {
+    position: sticky;
+    top: 0%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #15171be2;
+    padding: 10px;
+    color: #FFFFFF;
+    margin-left: 3%;
+    margin-right: 3%;
+    border-radius: 1px;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+}
+
+.title_button {
+    background-color: transparent;
+}
+
+.title {
+    color: white;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500; 
+    font-size: 16px; 
+    line-height: 24px; 
+    /* background-color: red; */
+}
+
+.auth_button {
+  background-color: transparent;
+}
+
+.auth_window {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: fixed;
+    top: 6%;
+    right: 1.5%;
+    background-color: #172242;
+    border-radius: 3px;
+    height: 9%;
+    width: 7%;
+}
+
+.log_in {
+    background-color: transparent;
+    color: white;
+    height: 50%;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px; 
+    line-height: 20px; 
+    
+}
+.log_in:hover {
+    background-color: #26386c;
+}
+
+.sign_up {
+    background-color: transparent;
+    color: white;
+    height: 50%;
+    font-weight: bold;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px; 
+    line-height: 20px; 
+}
+
+.sign_up:hover {
+    background-color: #26386c;
+}
+
+.auth_window_logged {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: fixed;
+    top: 6.5%;
+    right: 0.5%;
+    background-color: #172242;
+    border-radius: 3px;
+    height: 14%;
+    width: 9%;
+
+}
+
+.profile {
+    background-color: transparent;
+    color: white;
+    height: 50%;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px; 
+    line-height: 20px; 
+}
+
+.admin_panel {
+    background-color: transparent;
+    color: white;
+    height: 50%;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px; 
+    line-height: 20px; 
+
+}
+
+.sign_out {
+    background-color: transparent;
+    color: red;
+    height: 50%;
+    font-weight: bold;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px; 
+    line-height: 20px; 
+}

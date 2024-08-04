@@ -1,0 +1,78 @@
+// src/hooks/useAuth.ts
+
+import { useState, useEffect, useContext, createContext, ReactNode } from 'react';
+import { fetchToken, postUser } from '../services/api'; // Import Axios instance
+import api from '../services/api';
+import { jwtDecode } from 'jwt-decode';
+
+interface AuthContextType {
+  token: string | null;
+  login: (username: string, password: string) => Promise<void>;
+  signup: (username: string, password: string) => Promise<void>;
+  logout: () => void;
+  getUserInfo: () => UserInfo | null;
+}
+interface UserInfo {
+    username: string;
+    role: string;
+  }
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const savedToken = localStorage.getItem('authToken');
+    if (savedToken) {
+      setToken(savedToken);
+    }
+  }, []);
+
+  const login = async (username: string, password: string) => {
+
+      const response = await fetchToken(username, password);
+      if (response.access_token) {
+        const accessToken = response.access_token;
+        setToken(accessToken);
+        localStorage.setItem('authToken', accessToken);
+        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      }
+  };
+
+  const signup = async (username: string, password: string) => {
+      await postUser(username, password);
+      await login(username, password);
+  };
+
+  const logout = () => {
+    setToken(null);
+    localStorage.removeItem('authToken');
+    delete api.defaults.headers.common['Authorization'];
+  };
+
+  const getUserInfo = (): UserInfo | null => {
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      return {
+        username: decoded.sub,
+        role: decoded.role, 
+      };
+    }
+    return null;
+  };
+
+  return (
+    <AuthContext.Provider value={{ token, login, signup, logout, getUserInfo}}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
