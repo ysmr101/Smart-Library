@@ -7,13 +7,16 @@ import Books from '../../components/Books/Books';
 
 const MainPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
+    const [sortBy, setSortBy] = useState<string>(''); // Add sortBy state
+    console.log(sortBy)
+
 
 
     return (
         <div className={styles.mainPage}>
             <Header />
-            <Search setSearchQuery={setSearchQuery} />
-            <Books searchQuery={searchQuery} />
+            <Search setSearchQuery={setSearchQuery} setSortBy={setSortBy} />
+            <Books searchQuery={searchQuery} sortBy={sortBy} />
             <Chatbot />
         </div>
     );

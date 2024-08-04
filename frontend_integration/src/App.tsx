@@ -10,11 +10,9 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <Routes>
-        <Route>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/adminPanel" element={<ProtectedRoute component={AdminPage}/>}/>
-        </Route>
       </Routes>
     </AuthProvider>
   );

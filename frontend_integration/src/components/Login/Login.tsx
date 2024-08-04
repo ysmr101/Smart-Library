@@ -56,7 +56,7 @@ const Login: React.FC = () => {
                             <div className={styles.section_form}>
                                 <input 
                                     className={styles.section_form} 
-                                    type={styles.text} 
+                                    type='text' 
                                     placeholder='example@pwc.com'
                                     onChange={(e) => setUsernameLogin(e.target.value)}
                                 />                
@@ -69,7 +69,7 @@ const Login: React.FC = () => {
                             <div className={styles.section_form}>
                                 <input 
                                     className={styles.section_form} 
-                                    type={styles.text} 
+                                    type='password' 
                                     placeholder='Enter Password...'
                                     onChange={(e) => setPasswordLogin(e.target.value)}
                                 />                
@@ -92,7 +92,7 @@ const Login: React.FC = () => {
                         <div className={styles.section_form}>
                             <input 
                                 className={styles.section_form} 
-                                type={styles.text} 
+                                type='text' 
                                 placeholder='example@pwc.com'
                                 onChange={(e) => setUsernameSignup(e.target.value)}
                             />                
@@ -105,7 +105,7 @@ const Login: React.FC = () => {
                         <div className={styles.section_form}>
                             <input 
                                 className={styles.section_form} 
-                                type={styles.text} 
+                                type='password' 
                                 placeholder='Enter Password...'
                                 onChange={(e) => setPasswordSignup(e.target.value)}
                             />                
@@ -113,7 +113,7 @@ const Login: React.FC = () => {
                         <div className={styles.section_form}>
                             <input 
                                 className={styles.section_form} 
-                                type={styles.text} 
+                                type='password' 
                                 placeholder='Re-Enter Password...'
                                 onChange={(e) => setReenterPasswordSignup(e.target.value)}
                             />                

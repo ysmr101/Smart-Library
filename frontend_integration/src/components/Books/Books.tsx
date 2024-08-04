@@ -22,9 +22,10 @@ interface Book {
 
 interface BooksProps {
     searchQuery: string;
+    sortBy: string;
   }
 
-const Books: React.FC<BooksProps> = ({ searchQuery }) => {
+const Books: React.FC<BooksProps> = ({ searchQuery, sortBy }) => {
     const { getUserInfo, token } = useAuth();
     // const userInfo = getUserInfo();
     const [books, setBooks] = useState<Book[]>([]);
@@ -36,7 +37,7 @@ const Books: React.FC<BooksProps> = ({ searchQuery }) => {
     useEffect(() => {
         const getBooks = async () => {
             try {
-                const data = await fetchBooks();
+                const data = await fetchBooks(sortBy);
                 setBooks(data);
                 setFavoriteBooks(data.reduce((acc, book, index) => {
                     acc[index] = false; // Initially, no book is marked as favorite
@@ -48,7 +49,7 @@ const Books: React.FC<BooksProps> = ({ searchQuery }) => {
             }
         };
         getBooks();
-    }, []);
+    }, [sortBy]);
 
     const handleFlip = (index: number) => {
         const newFlipStates = [...flipStates];

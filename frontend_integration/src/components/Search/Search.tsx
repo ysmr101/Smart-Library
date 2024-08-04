@@ -8,9 +8,11 @@ import favIcon from '../../assets/favorites.svg'
 
 interface SearchProps {
   setSearchQuery: (query: string) => void;
+  setSortBy: (sort: string) => void;
+
 }
 
-const Search: React.FC<SearchProps> = ({ setSearchQuery }) => {
+const Search: React.FC<SearchProps> = ({ setSearchQuery, setSortBy }) => {
 
   const [isSortOpen, setIsSortOpen] = useState(false);
   const { token } = useAuth()
@@ -20,7 +22,15 @@ const Search: React.FC<SearchProps> = ({ setSearchQuery }) => {
     setIsSortOpen(!isSortOpen);
   };
 
+  const handleSortChange = (sortType: string) => {
+    console.log(sortType)
+    setSortBy(sortType);
+    setIsSortOpen(false);
+  };
+
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value)
     setSearchQuery(event.target.value);
   };
 
@@ -49,25 +59,25 @@ const Search: React.FC<SearchProps> = ({ setSearchQuery }) => {
             </button>
             {isSortOpen && (
                 <div className={styles.sort_window}>
-                  <button className={styles.sort_type}>
+                  <button className={styles.sort_type} onClick={() => handleSortChange('most_trending')}>
                     Most Trending
                   </button>
                   <button className={styles.sort_type}>
                     Recently Added
                   </button>
-                  <button className={styles.sort_type}>
+                  <button className={styles.sort_type} onClick={() => handleSortChange('recommended')}>
                     Recommended
                   </button>
-                  <button className={styles.sort_type}>
+                  <button className={styles.sort_type} onClick={() => handleSortChange('most_recent')}>
                     Most recent
                   </button>
-                  <button className={styles.sort_type}>
+                  <button className={styles.sort_type} onClick={() => handleSortChange('earliest_year')}>
                     Earliest year
                   </button>
-                  <button className={styles.sort_type}>
+                  <button className={styles.sort_type} onClick={() => handleSortChange('top_rated')}>
                     Top rated
                   </button>
-                  <button className={styles.sort_type}>
+                  <button className={styles.sort_type} onClick={() => handleSortChange('least_rated')}>
                     Least rated
                   </button>
                 </div>

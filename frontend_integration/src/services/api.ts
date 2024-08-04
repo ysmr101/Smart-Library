@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useAuth } from '../utils/Auth';
 
 interface Book {
     thumbnail: string;
@@ -93,8 +92,8 @@ export const fetchUsers = async (): Promise<Users[]> => {
     return response.data;
 };
 
-export const fetchBooks = async (): Promise<Book[]> => {
-    const response = await api.get<Book[]>(`/books/?start=${0}&limit=${100}`);
+export const fetchBooks = async (sort: string = ''): Promise<Book[]> => {
+    const response = await api.get<Book[]>(`/books/?start=${0}&limit=${50}&sort=${sort}`);
     return response.data;
 };
 
