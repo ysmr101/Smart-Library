@@ -18,7 +18,7 @@ def retrieve_mistral_book(query: str):
 
 
 # GET /books: Retrieve a list of all books.
-@app.get("/books/", response_model=list[books_schema.Books], tags=["books"])
+@app.get("/books/", tags=["books"])
 def retrieve_all_books(start: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return books_crud.get_books(db, start=start, limit=limit)
 

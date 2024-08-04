@@ -28,7 +28,7 @@ def querydb(text):
 
 chatmodel = ChatOllama(model="llama3.1")
 
-config = {"configurable": {"session_id": "y1"}}
+config = {"configurable": {"session_id": "y2"}}
 
 
 def query(query: str):

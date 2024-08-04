@@ -27,7 +27,17 @@ def check_register(db: Session, user_name: str):
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(User).offset(skip).limit(limit).all()
+    users = db.query(User).offset(skip).limit(limit).all()
+    user_list = []
+    for user in users:
+        user_dict = {
+            "username": user.username,
+            "user_id": user.user_id,
+            "role": user.role,
+        }
+        user_list.append(user_dict)
+
+    return user_list
 
 
 def update_user(db: Session, user: User_create, user_id: str):

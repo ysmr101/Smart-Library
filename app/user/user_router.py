@@ -37,6 +37,14 @@ async def read_users_me(
     }
 
 
+@app.get("/users/", tags=["users"])
+async def read_users_me(
+    _: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=["Admin"]))],
+    db: user_crud.Session = Depends(get_db),
+):
+    return user_crud.get_users(db)
+
+
 @app.put("/users/me/{user_id}", tags=["users"])
 async def update_users_me(
     user_id: str, user: User_create, db: user_crud.Session = Depends(get_db)

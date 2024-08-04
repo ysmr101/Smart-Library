@@ -15,6 +15,10 @@ class Books_create(BaseModel):
     genre: str
     description: str
     author_id: int
+    publish_year: int
+    rating: int
+    author: str
+    thumbnail: str
 
 
 class User_preferences(BaseModel):

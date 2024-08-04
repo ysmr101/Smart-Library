@@ -25,6 +25,10 @@ def create_book(db: Session, book: books_schema.Books_create):
         genre=book.genre,
         description=book.description,
         author_id=book.author_id,
+        publish_year=book.publish_year,
+        rating=book.rating,
+        author=book.author,
+        thumbnail=book.thumbnail,
     )
     db.add(db_book)
     db.commit()

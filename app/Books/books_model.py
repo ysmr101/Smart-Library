@@ -11,6 +11,9 @@ class Book(Base):
     description = Column(String, index=True)
     author_id = Column(Integer, index=True)
     thumbnail = Column(String, index=True)
+    publish_year = Column(Integer, index=True)
+    rating = Column(Integer, index=True)
+    author = Column(String, index=True)
 
 
 class User_preference(Base):
