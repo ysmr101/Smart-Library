@@ -1,8 +1,7 @@
 Run the Server using: python -m uvicorn main:app --reload
 
-Run Streamlit in another terminal using: streamlit run streamlitt.py
-
-Change the path in streamlitt.py if you want to try the intents endpoint (it's not complete)
+Run npm install in frontend dir
+Run npm start
 
 
 
