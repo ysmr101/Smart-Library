@@ -3,22 +3,17 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage
 from langchain_core.runnables.history import RunnableWithMessageHistory
-from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import (
     BaseChatMessageHistory,
     InMemoryChatMessageHistory,
 )
-from langchain.pydantic_v1 import BaseModel, Field
-from langchain.tools import BaseTool, StructuredTool, tool
-from app.Books import books_crud
+from langchain.tools import tool
 import random
 from langchain.agents import create_tool_calling_agent
 from langchain.agents import AgentExecutor
 import chromadb
 
-client = chromadb.PersistentClient(
-    path="/Users/maltuaijri001/Desktop/Smart-Library/chromadb"
-)
+client = chromadb.PersistentClient(path="/Users/maltuaijri001/Desktop/chromadb")
 books_collection = client.get_or_create_collection(name="improved_books2.0")
 
 llm = ChatOllama(model="llama3.1", temperature=0)
@@ -149,7 +144,7 @@ def get_recommendation2(query):
             "system"
             "You are a smart librarian in the smart library"
             "Your job is retrieve the results of the database and present them to the user in a good manner"
-            "the query that you will get is the result of the database and you need to sort it based on ratings without explicitly stating that"
+            "the query that you will get is the result of the database and you need to sort it based on ratings"
             "The columns for the database are: title, author, description, average rating, pages and year."
             "Do not respond in any way other than providing the results"
             "Don't chat with the user, only provide the books"
@@ -162,6 +157,11 @@ def get_recommendation2(query):
     chain2 = prompt2 | llm
     with_message_history = RunnableWithMessageHistory(chain2, get_session_history)
 
+    # response = with_message_history.invoke(
+    #     {"messages": [HumanMessage(content="messages")]},
+    #     config={"configurable": {"session_id": "abc2"}},
+    # )
+    # return response.content
     for chunk in with_message_history.stream(
         {"messages": [HumanMessage(content="messages")]},
         config={"configurable": {"session_id": "abc2"}},
@@ -179,17 +179,23 @@ def get_recommendation3(query):
             "system",
             "You are a smart librarian in the smart library. "
             "You may be asked one of two things: either the user wants a book recommendation, or wants to add a book to the database. "
-            "Don't do both actions; only do one of the two! "
+            "Don't do both actions; only do one of the two!"
             "\n\n1. **Book Recommendation**: "
             "If the user wants a recommendation, use the `recommend_book` function. "
             "The user will enter a query, and you need to understand their intent and convert their prompt into a few relevant keywords. "
             "These keywords will be used as a query to the ChromaDB database for a similarity search. "
             "The database columns are: title, author, description, average rating, pages, and year. "
             "Focus on the description and title columns to find the most semantically similar documents. "
-            "Only provide the keywords, no other responses or sentences."
+            "Only provide the keywords to the function, no other responses or sentences. "
+            "Do not respond in any way other than providing the results"
+            "After getting the books from the database:"
+            "Don't chat with the user, only provide the books"
+            "list the books in an ordered manner (numbered or similar)"
+            "When done exit provide the results and don't invoke any other task"
             "\n\n2. **Add a Book**: "
             "If the user wants to add a book to the database, ask them for the title, genre, author, and description of the book. "
-            "Use the `add_book` function to add the book to the database and return a success message."
+            "Use the `add_book` function to add the book to the database and return a success message. "
+            "When done exit provide the results and don't invoke any other task"
             "\n\n**Additional Notes**: "
             "Do not respond in any way other than providing the results. ",
         ),

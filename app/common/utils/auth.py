@@ -87,8 +87,9 @@ def access_token(response: Response, db: Session, username: str, password: str):
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
+        data={"sub": user.username,"role" : user.role}, expires_delta=access_token_expires
     )
+    
     response.set_cookie(
         key="access_token", value=f"Bearer {access_token}", httponly=True
     )

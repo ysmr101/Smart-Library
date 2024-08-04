@@ -26,7 +26,7 @@ def check_register(db: Session, user_name: str):
         raise HTTPException(status_code=400, detail="Username is already registered")
 
 
-def get_users(db: Session, skip: int = 0, limit: int = 100):
+def get_users(db: Session, skip: int = 0, limit: int = 10000):
     return db.query(User).offset(skip).limit(limit).all()
 
 

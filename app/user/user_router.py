@@ -12,6 +12,12 @@ from app.Books import books_schema
 app = APIRouter()
 
 
+@app.get("/users", tags=["users"])
+def get_all_users(_: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=["Admin"]))],
+                  db: user_crud.Session = Depends(get_db)):
+    return user_crud.get_users(db)
+
+
 @app.post("/users/register", tags=["users"])
 def create_user(user: User_create, db: user_crud.Session = Depends(get_db)):
     return user_crud.create_user(db, user)

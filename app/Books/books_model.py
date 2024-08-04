@@ -7,7 +7,7 @@ class Book(Base):
 
     book_id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, index=True)
-    genre = Column(String, index=True, default="history")
+    genre = Column(String, index=True)
     description = Column(String, index=True)
     thumbnail = Column(String)
     published_year = Column(String)

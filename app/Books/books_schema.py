@@ -8,6 +8,8 @@ class Books(BaseModel):
     description: str
     thumbnail: str
     author_id: int
+    average_rating: str
+    published_year: str
 
 
 class Books_create(BaseModel):

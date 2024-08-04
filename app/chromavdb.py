@@ -30,8 +30,8 @@ books_collection = client.get_or_create_collection(name="improved_books2.0")
 
 # print("Data has been successfully embedded and stored in ChromaDB.")
 # print(time.time()-start)
-# # # result = books_collection.query(
-# # #     query_texts=["spider"],
-# # #     n_results=5
-# # # )
-# # # print(result.get('documents'))
+# result = books_collection.query(
+#     query_texts=["spider"],
+#     n_results=5
+# )
+# print(result.get('documents'))

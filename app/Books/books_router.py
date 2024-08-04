@@ -19,7 +19,7 @@ def query(query: str):
 # Use for streaming and chat history book recommendations
 @app.get("/query", tags=["model"])
 def old_query(query: str):
-    return StreamingResponse(books_services.get_recommendation2(query))
+    return StreamingResponse(books_services.get_recommendation2(query), media_type='text/event-stream')
 
 
 # GET /books: Retrieve a list of all books.
