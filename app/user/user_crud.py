@@ -76,3 +76,12 @@ def add_preference(
     db.commit()
     db.refresh(db_preference)
     return db_preference
+
+
+def delete_user(db: Session, user_id: str):
+    user_to_delete = (
+        db.query(User).filter(User.user_id == user_id).first()
+    )
+    db.delete(user_to_delete)
+    db.commit()
+    return user_to_delete

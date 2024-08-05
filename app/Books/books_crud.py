@@ -18,14 +18,15 @@ def get_books(db: Session, start: int = 0, limit: int = 100, sort: Optional[str]
         "most_recent": [desc(books_model.Book.published_year)],
         "earliest_year": [asc(books_model.Book.published_year)],
         "most_trending": [desc(books_model.Book.average_rating), desc(books_model.Book.published_year)],
+        "book_id": [asc(books_model.Book.book_id)]
     }
 
     if (genre != '' and genre is not None):
-        list_of_books = db.query(books_model.Book).filter(books_model.Book.genre == genre).limit(limit)
+        list_of_books = db.query(books_model.Book).filter(books_model.Book.genre == genre).order_by(*sort_map['top_rated']).limit(limit)
     elif (sort != '' and sort is not None):
         list_of_books = db.query(books_model.Book).order_by(*sort_map[sort]).limit(limit)
     else:
-        list_of_books = db.query(books_model.Book).offset(start).limit(limit).all()
+        list_of_books = db.query(books_model.Book).order_by(*sort_map["book_id"]).offset(start).limit(limit).all()
     # books_services.check_books(repr(list_of_books))
     return list_of_books
 
@@ -72,9 +73,12 @@ def update_book(db: Session, book: books_schema.Books_create, id):
     )
     books_services.check_author(author)
     book_to_update.title = book.title
-    book_to_update.genre = book.genre
-    book_to_update.description = book.description
     book_to_update.author = book.author
+    book_to_update.genre = book.genre
+    book_to_update.published_year = book.published_year
+    book_to_update.description = book.description
+    book_to_update.average_rating = book.average_rating
+    book_to_update.thumbnail = book.thumbnail
     db.commit()
     db.refresh(book_to_update)
     return book_to_update

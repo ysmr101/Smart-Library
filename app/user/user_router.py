@@ -57,3 +57,11 @@ async def add_user_preference(
     db: Session = Depends(get_db),
 ):
     return user_crud.add_preference(db, preference, user_id)
+
+
+@app.delete("/users/{user_id}", tags=["users"])
+async def delete_user(_: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=["Admin"]))],
+                user_id: str, 
+                db: user_crud.Session = Depends(get_db)):
+    return user_crud.delete_user(db, user_id)
+
