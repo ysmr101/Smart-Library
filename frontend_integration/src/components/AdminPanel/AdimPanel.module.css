@@ -76,6 +76,7 @@
     font-size: 14px; 
     background-color: #445A9A;
     border-top: none;
+    
 }
 
 #book_header {
@@ -86,6 +87,7 @@
     border-top: none;
     width: 15%;
 }
+
 
 .gallery {
     display: flex;
@@ -107,7 +109,7 @@
 .container_for_button {
     width: 3%;
     height: 100%;
-    border-top: 1px solid #ccc;
+    /* border-top: 1px solid #ccc; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -116,19 +118,30 @@
 
 
 .book_title {
-    color: white;
-    width: 12%;
+    width: 15%;
     height: 100%;
-    overflow: scroll;
     border-top: 1px solid #ccc;
-    font-family: 'Work Sans', sans-serif;
-    font-weight: 400; 
-    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px;
+    color: white;
+
+}
+
+.book_title input {
+    color: white;
+    background-color: transparent;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px;
     text-align: center;
-    /* background-color: red; */
+    width: 100%;
+    border: none;
+
+
 }
 
 .input {
@@ -159,7 +172,7 @@
 }
 .book_genre {
     color: white;
-    width: 10%;
+    width: 7%;
     height: 100%;
     overflow: scroll;
     border-top: 1px solid #ccc;
@@ -191,7 +204,7 @@
 .book_description {
 
     color: white;
-    width: 38%;
+    width: 35%;
     height: 100%;
     /* background-color: red; */
     border-top: 1px solid #ccc;
@@ -287,3 +300,8 @@
 
 }
 
+#extra_header {
+    background-color: transparent;
+    border: none;
+    cursor: auto;
+}

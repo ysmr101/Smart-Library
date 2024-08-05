@@ -84,7 +84,7 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy, genre }) => {
                         <div className={styles.book_header}>
                             <div className={styles.book_header_texts}>
                                 <h1 className={styles.book_title}>
-                                    {book.title}
+                                    {book.title.length > 19 ? book.title.slice(0, 19)+'...' : book.title}
                                 </h1>
                                 <div className={styles.book_header_author_and_year}>
                                     <p className={styles.author}>

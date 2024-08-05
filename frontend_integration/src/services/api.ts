@@ -114,6 +114,19 @@ export const deleteBook = async (book_id: number): Promise<Book> => {
 
 export const createBook = async (title: string, author: string, genre: string, published_year: string, description: string, average_rating: string, thumbnail: string): Promise<Book> => {
     const response = await api.post<Book>('/books/', {
+      title,
+      author,
+      genre,
+      published_year,
+      description,
+      average_rating,
+      thumbnail
+    });
+    return response.data
+}
+
+export const updateBook = async (book_id: number, title: string, author: string, genre: string, published_year: string, description: string, average_rating: string, thumbnail: string): Promise<Book> => {
+    const response = await api.put<Book>(`/books/${book_id}`, {
     title,
     author,
     genre,
@@ -123,6 +136,11 @@ export const createBook = async (title: string, author: string, genre: string, p
     thumbnail
   });
     return response.data
+}
+
+export const deleteUser = async (user_id: string): Promise<User> => {
+  const response = await api.delete<User>(`/users/${user_id}`);
+  return response.data
 }
 
 const api = axios.create({
