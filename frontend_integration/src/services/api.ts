@@ -4,7 +4,7 @@ interface Book {
     book_id: number
     thumbnail: string;
     title: string;
-    published_year: number;
+    published_year: string;
     genre: string;
     description: string;
     average_rating: string;
@@ -112,8 +112,21 @@ export const deleteBook = async (book_id: number): Promise<Book> => {
     return response.data
 }
 
+export const createBook = async (title: string, author: string, genre: string, published_year: string, description: string, average_rating: string, thumbnail: string): Promise<Book> => {
+    const response = await api.post<Book>('/books/', {
+    title,
+    author,
+    genre,
+    published_year,
+    description,
+    average_rating,
+    thumbnail
+  });
+    return response.data
+}
+
 const api = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: 'http://localhost:8000', 
     headers: {
       'Content-Type': 'application/json',
     },

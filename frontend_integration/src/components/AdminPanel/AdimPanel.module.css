@@ -111,6 +111,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 
@@ -130,6 +131,16 @@
     /* background-color: red; */
 }
 
+.input {
+    background-color: transparent;
+    color: white;
+    border: none;
+    height: 80%;
+    width: 90%;
+    outline: none;
+    text-align: center;
+}
+
 .book_author {
     color: white;
     width: 20%;
@@ -146,10 +157,26 @@
     justify-content: center;
     text-align: center;
 }
+.book_genre {
+    color: white;
+    width: 10%;
+    height: 100%;
+    overflow: scroll;
+    border-top: 1px solid #ccc;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; 
+    font-size: 14px; 
+    text-align: center;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 
 .book_year {
     color: white;
-    width: 5%;
+    width: 8%;
     height: 100%;
     border-top: 1px solid #ccc;
     font-family: 'Work Sans', sans-serif;
@@ -164,7 +191,7 @@
 .book_description {
 
     color: white;
-    width: 53%;
+    width: 38%;
     height: 100%;
     /* background-color: red; */
     border-top: 1px solid #ccc;
@@ -183,7 +210,7 @@
 
 .book_rating {
     color: white;
-    width: 7%;
+    width: 9%;
     height: 100%;
     /* background-color: red; */
     border-top: 1px solid #ccc;

@@ -12,7 +12,7 @@ interface Book {
     book_id: number
     thumbnail: string;
     title: string;
-    published_year: number;
+    published_year: string;
     genre: string;
     description: string;
     average_rating: string;
@@ -91,7 +91,7 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy, genre }) => {
                                         {book.author}
                                     </p>
                                     <p className={styles.year}>
-                                        {(Math.floor(book.published_year)).toString()}
+                                        {(Math.floor(parseFloat(book.published_year)))}
                                     </p>
                                 </div>
                             </div>
