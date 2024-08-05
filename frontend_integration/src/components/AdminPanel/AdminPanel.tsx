@@ -209,7 +209,7 @@ const AdimPanel: React.FC = () => {
                                         <img src={authIcon}/>
                                     </div>
                                     <p className={styles.user_name}>
-                                        user
+                                        {user.username}
                                     </p>
                                     <p className={styles.user_role}>
                                         {user.role}
