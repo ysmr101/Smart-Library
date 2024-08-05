@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styles from './Chatbot.module.css';
-import { fetchRecommendationsStream } from '../../services/api';
+import { fetchBotRecommendationsStream } from '../../services/api';
 import chatIcon from '../../assets/chatbot.svg'
 import sendIcon from '../../assets/send.svg'
 
@@ -27,7 +27,7 @@ const Chatbot: React.FC = () => {
           setInputText("");
           setCurrentBotText("");
           setLoading(true);
-          fetchRecommendationsStream(
+          fetchBotRecommendationsStream(
             inputText,
             (chunk) => {
                 setLoading(false);

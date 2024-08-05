@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styles from './AdimPanel.module.css'
 import { fetchBooks, fetchUsers } from '../../services/api';
-import Authors from '../Authors/Authors';
 import removeIcon from '../../assets/removeUser.svg'
 import authIcon from '../../assets/authLogged.svg'
+import addIcon from '../../assets/addBook.svg'
+import { deleteBook } from '../../services/api';
 
 interface Book {
+    book_id: number
     thumbnail: string;
     title: string;
-    author_id: number;
+    author: string;
     published_year: number;
     genre: string;
     description: string;
@@ -51,9 +53,20 @@ const AdimPanel: React.FC = () => {
         };
         getUsers();
     }, []);
+
+    const handleDelete = (book_id: number) => {
+        const deleteBooks = async () => {
+            try {
+                await deleteBook(book_id);
+                setBooks(books.filter(book => book.book_id !== book_id));
+            } catch (error) {
+                console.error("Error deleting book:", error);
+            }
+        };
+        deleteBooks();
+    }
     
     return (     
-
             <div className={styles.adminPanel}>
                 <p className={styles.title}>
                     Admin Panel
@@ -65,7 +78,7 @@ const AdimPanel: React.FC = () => {
                         </p>
                         <div className={styles.books_content}>
                             <div className={styles.headers}>
-                                <p className={styles.book_title} id={styles.header}>
+                                <p className={styles.book_title} id={styles.book_header}>
                                     Book Title
                                 </p>
                                 <p className={styles.book_author} id={styles.header}>
@@ -81,24 +94,47 @@ const AdimPanel: React.FC = () => {
                                     Rating
                                 </p>
                             </div>
-                            {books.map((book, index) => (
+                            <div className={styles.gallery}>
+                                {books.map((book, index) => (
+                                    <div className={styles.book}>
+                                        <div className={styles.container_for_button}>
+                                            <img src={removeIcon} onClick={() => handleDelete(book.book_id)}/>
+                                        </div>
+                                        <p className={styles.book_title}>
+                                            {book.title.length > 20 ? book.title.slice(0, 20)+'...' : book.title}
+                                        </p>
+                                        <p className={styles.book_author}>
+                                            {book.author}
+                                        </p>
+                                        <p className={styles.book_year}>
+                                            {(Math.floor(book.published_year)).toString()}                                    
+                                        </p>
+                                        <p className={styles.book_description}>
+                                            {book.description.length > 70 ? book.description.slice(0, 70)+'...' : book.description}
+                                        </p>
+                                        <p className={styles.book_rating}>
+                                            {book.average_rating}
+                                        </p>
+                                    </div>
+                                ))}
+                                <div className={styles.last_row}>
                                 <div className={styles.book}>
-                                    <p className={styles.book_title}>
-                                        {book.title}
-                                    </p>
-                                    <p className={styles.book_author}>
-                                        <Authors author_id={book.author_id}/>
-                                    </p>
-                                    <p className={styles.book_year}>
-                                        {(Math.floor(book.published_year)).toString()}                                    </p>
-                                    <p className={styles.book_description}>
-                                        {book.description}
-                                    </p>
-                                    <p className={styles.book_rating}>
-                                        {book.average_rating}
-                                    </p>
+                                        <div className={styles.container_for_button}>
+                                            <img src={addIcon}/>
+                                        </div>
+                                        <p className={styles.book_title}>
+                                        </p>
+                                        <p className={styles.book_author}>
+                                        </p>
+                                        <p className={styles.book_year}>
+                                        </p>
+                                        <p className={styles.book_description}>
+                                        </p>
+                                        <p className={styles.book_rating}>
+                                        </p>
+                                    </div>
                                 </div>
-                            ))}
+                            </div>
                         </div>
                     </div>
                     <div className={styles.users}>
@@ -106,23 +142,22 @@ const AdimPanel: React.FC = () => {
                             Users
                         </p>
                         <div className={styles.users_content}>
-                        {users.map((user, index) => (
-                            <div className={styles.user}>
-                                <button className={styles.user_remove}>
-                                <img src={removeIcon}/>
-                                </button>
-                                <div className={styles.user_icon}>
-                                    <img src={authIcon}/>
+                            {users.map((user, index) => (
+                                <div className={styles.user}>
+                                    <button className={styles.user_remove}>
+                                        <img src={removeIcon}/>
+                                    </button>
+                                    <div className={styles.user_icon}>
+                                        <img src={authIcon}/>
+                                    </div>
+                                    <p className={styles.user_name}>
+                                        user
+                                    </p>
+                                    <p className={styles.user_role}>
+                                        {user.role}
+                                    </p>
                                 </div>
-                                <p className={styles.user_name}>
-                                    {user.username}
-                                </p>
-                                <p className={styles.user_role}>
-                                    {user.role}
-                                </p>
-                            </div>
-                        ))}
-
+                            ))}
                         </div>
                     </div>
                 </div>

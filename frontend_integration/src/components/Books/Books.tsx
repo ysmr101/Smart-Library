@@ -3,16 +3,15 @@ import styles from './Books.module.css';
 import StarRating from '../Rating/Rating';
 import ReactCardFlip from "react-card-flip";
 import { fetchBooks } from '../../services/api';
-import Authors from '../Authors/Authors';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../utils/Auth';
 import heartFull from '../../assets/heartFull.svg'
 import heartEmpty from '../../assets/heartEmpty.svg'
 
 interface Book {
+    book_id: number
     thumbnail: string;
     title: string;
-    author_id: number;
     published_year: number;
     genre: string;
     description: string;
@@ -23,9 +22,10 @@ interface Book {
 interface BooksProps {
     searchQuery: string;
     sortBy: string;
+    genre: string;
   }
 
-const Books: React.FC<BooksProps> = ({ searchQuery, sortBy }) => {
+const Books: React.FC<BooksProps> = ({ searchQuery, sortBy, genre }) => {
     const { getUserInfo, token } = useAuth();
     // const userInfo = getUserInfo();
     const [books, setBooks] = useState<Book[]>([]);
@@ -37,10 +37,12 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy }) => {
     useEffect(() => {
         const getBooks = async () => {
             try {
-                const data = await fetchBooks(sortBy);
+                console.log(genre)
+                const data = await fetchBooks(sortBy, genre);
+                console.log(data)
                 setBooks(data);
                 setFavoriteBooks(data.reduce((acc, book, index) => {
-                    acc[index] = false; // Initially, no book is marked as favorite
+                    acc[index] = false; 
                     return acc;
                   }, {} as { [key: number]: boolean }));
           
@@ -49,7 +51,7 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy }) => {
             }
         };
         getBooks();
-    }, [sortBy]);
+    }, [sortBy, genre]);
 
     const handleFlip = (index: number) => {
         const newFlipStates = [...flipStates];
@@ -86,7 +88,7 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy }) => {
                                 </h1>
                                 <div className={styles.book_header_author_and_year}>
                                     <p className={styles.author}>
-                                        <Authors author_id={book.author_id}/>
+                                        {book.author}
                                     </p>
                                     <p className={styles.year}>
                                         {(Math.floor(book.published_year)).toString()}

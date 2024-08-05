@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 interface Book {
+    book_id: number
     thumbnail: string;
     title: string;
-    author_id: number;
     published_year: number;
     genre: string;
     description: string;
@@ -34,12 +34,12 @@ interface User {
     password: string
 }
 
-export const fetchRecommendation = async (query: string): Promise<string> => {
+export const fetchBotRecommendation = async (query: string): Promise<string> => {
     const response = await api.get<string>(`/query?query=${query}`);
     return response.data
 }
 
-export const fetchRecommendationsStream = async (
+export const fetchBotRecommendationsStream = async (
     query: string,
     onData: (chunk: string) => void,
     onError: (error: any) => void
@@ -92,8 +92,8 @@ export const fetchUsers = async (): Promise<Users[]> => {
     return response.data;
 };
 
-export const fetchBooks = async (sort: string = ''): Promise<Book[]> => {
-    const response = await api.get<Book[]>(`/books/?start=${0}&limit=${50}&sort=${sort}`);
+export const fetchBooks = async (sort: string = '', genre: string = ''): Promise<Book[]> => {
+    const response = await api.get<Book[]>(`/books/?start=${0}&limit=${100}&sort=${sort}&genre=${genre}`);
     return response.data;
 };
 
@@ -101,6 +101,16 @@ export const fetchAuthor = async (author_id: number): Promise<Author> => {
     const response = await api.get<Author>(`/authors/${author_id}`);
     return response.data;
 };
+
+export const fetchBookRecommendation =  async (user_id: string): Promise<string> => {
+    const response = await api.get<string>(`/recommnedations/${user_id}`);
+    return response.data
+}
+
+export const deleteBook = async (book_id: number): Promise<Book> => {
+    const response = await api.delete<Book>(`/books/${book_id}`)
+    return response.data
+}
 
 const api = axios.create({
     baseURL: 'http://localhost:8000',

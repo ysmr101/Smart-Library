@@ -13,6 +13,7 @@ interface AuthContextType {
   getUserInfo: () => UserInfo | null;
 }
 interface UserInfo {
+    user_id: string;
     username: string;
     role: string;
   }
@@ -55,6 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (token) {
       const decoded: any = jwtDecode(token);
       return {
+        user_id: decoded.user_id,
         username: decoded.sub,
         role: decoded.role, 
       };
