@@ -14,7 +14,7 @@ class Book(Base):
     average_rating = Column(String)
     num_pages = Column(String)
     ratings_count = Column(String)
-    author_id = Column(Integer, index=True)
+    author = Column(String, index=True)
 
 
 class User_preference(Base):

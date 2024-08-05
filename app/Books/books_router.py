@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.common.config.database import get_db
 from app.Books import books_crud, books_schema, books_services
-from typing import Annotated
+from typing import Annotated, Optional
 from app.common.utils import auth
 from fastapi.responses import StreamingResponse
 
@@ -24,8 +24,8 @@ def old_query(query: str):
 
 # GET /books: Retrieve a list of all books.
 @app.get("/books/", response_model=list[books_schema.Books], tags=["books"])
-def retrieve_all_books(start: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return books_crud.get_books(db, start=start, limit=limit)
+def retrieve_all_books(start: int = 0, limit: int = 100, db: Session = Depends(get_db), sort: Optional[str] = None, genre: Optional[str] = None):
+    return books_crud.get_books(db, start=start, limit=limit, sort=sort, genre=genre)
 
 
 # POST /books: Create a new book record (Admin only).
@@ -68,7 +68,6 @@ async def delete_book(
 # GET /recommendations: Retrieve book recommendations for the authenticated user based on their preferences.
 @app.get(
     "/recommnedations/{user_id}",
-    response_model=list[books_schema.Books],
     tags=["recommendations"],
 )
 async def recommend_book(user_id: str, db: Session = Depends(get_db)):

@@ -7,16 +7,19 @@ class Books(BaseModel):
     genre: str
     description: str
     thumbnail: str
-    author_id: int
+    author: str
     average_rating: str
     published_year: str
 
 
 class Books_create(BaseModel):
     title: str
+    author: str
     genre: str
+    published_year: str
     description: str
-    author_id: int
+    average_rating: str
+    thumbnail: str
 
 
 class User_preferences(BaseModel):
