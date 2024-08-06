@@ -52,13 +52,13 @@ const FilterDropDown: React.FC<FilterDropDownProps> = ({ selectedFilter, setSele
           tabIndex={-1}
         >
           <div className="py-1" role="none">
-            <a href="#" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Most Trending')}>Most Trending</a>
-            <a href="#" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Recently Added')}>Recently Added</a>
-            <a href="#" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Recommended')}>Recommended</a>
-            <a href="#" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Most recent publish year')}>Most recent publish year</a>
-            <a href="#" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Earliest publish year')}>Earliest publish year</a>
-            <a href="#" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Top rated')}>Top rated</a>
-            <a href="#" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Least rated')}>Least rated</a>
+            <a href="" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Most Trending')}>Most Trending</a>
+            <a href="" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Recently Added')}>Recently Added</a>
+            <a href="" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Recommended')}>Recommended</a>
+            <a href="" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Most recent publish year')}>Most recent publish year</a>
+            <a href="" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Earliest publish year')}>Earliest publish year</a>
+            <a href="" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Top rated')}>Top rated</a>
+            <a href="" className="text-white block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} onClick={() => handleFilterClick('Least rated')}>Least rated</a>
           </div>
         </div>
       )}

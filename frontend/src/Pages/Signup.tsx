@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 
 interface SignupFormProps {
   onSignupSuccess: (token: string, role: string) => void; // Updated signature
@@ -9,7 +10,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
+  const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -40,6 +41,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess }) => {
         setTimeout(() => {
           onSignupSuccess(token, role);
         }, 1000);
+        navigate('/');
+        window.location.reload();
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Registration failed');
@@ -54,6 +57,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess }) => {
   };
 
   return (
+            <div className="flex-grow flex items-center justify-center">
     <form className="bg-custom-blue p-6 rounded-md w-6/12" onSubmit={handleSubmit}>
       <h2 className="text-white text-xl mb-4 flex justify-center">Sign Up</h2>
       {error && <div className="text-red-500 mb-4">{error}</div>}
@@ -80,6 +84,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess }) => {
         </button>
       </div>
     </form>
+            </div>
   );
 };
 

@@ -1,46 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Profile from '../../assets/Profile.svg';
-import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom'; // Add useNavigate for routing
+import { useAuth } from '../../hooks/useAuth'; // Assuming you have a custom hook for auth
 
 interface ProfileButtonProps {
-  onLoginClick: () => void;
-  onSignupClick: () => void;
-  setView: React.Dispatch<React.SetStateAction<'Home' | 'Admin' | 'Login' | 'Signup' | 'ProfileInfo'>>;
+  // Include any props you need here, if required
 }
 
-const ProfileButton: React.FC<ProfileButtonProps> = ({ onLoginClick, onSignupClick, setView }) => {
+const ProfileButton: React.FC<ProfileButtonProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { authData, logout, getRole } = useAuth();
+  const { authData, logout, getRole } = useAuth(); // Use your auth context/hook
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogInClick = () => {
-    console.log('Log In clicked');
-    setIsOpen(false);
-    onLoginClick();
-  };
-
-  const handleSignUpClick = () => {
-    console.log('Sign Up clicked');
-    setIsOpen(false);
-    onSignupClick();
-  };
-
-  const handleProfileClick = () => {
-    console.log('Profile clicked');
-    setIsOpen(false);
-    setView('ProfileInfo');
-  };
-
   const handleLogoutClick = () => {
-    console.log('Log Out clicked');
-    setIsOpen(false);
     logout();
-    setView('Home');
-    window.location.reload();
+    setIsOpen(false);
+    navigate('/'); // Redirect to home or login page after logout
+    window.location.reload()
   };
 
   useEffect(() => {
@@ -55,8 +36,8 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ onLoginClick, onSignupCli
     };
   }, []);
 
-  const isAuthenticated = !!authData;
-  const isAdmin = getRole() === 'Admin';
+  const isAuthenticated = !!authData; // Check if the user is authenticated
+  const isAdmin = getRole() === 'Admin'; // Check if the user's role is admin
 
   return (
     <div className="relative inline-block text-center" ref={dropdownRef}>
@@ -84,27 +65,27 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ onLoginClick, onSignupCli
             {isAuthenticated ? (
               <>
                 <a
-                  href="#"
+                  href=""
                   className="text-white block px-4 py-2 text-sm"
                   role="menuitem"
                   tabIndex={-1}
-                  onClick={handleProfileClick}
+                  onClick={() => navigate('/profile')}
                 >
                   Profile
                 </a>
                 {isAdmin && (
                   <a
-                    href="#"
+                    href=""
                     className="text-white block px-4 py-2 text-sm"
                     role="menuitem"
                     tabIndex={-1}
-                    onClick={() => setView('Admin')}
+                    onClick={() => navigate('/admin')}
                   >
                     Admin Panel
                   </a>
                 )}
                 <a
-                  href="#"
+                  href=""
                   className="text-red-500 block px-4 py-2 text-sm"
                   role="menuitem"
                   tabIndex={-1}
@@ -116,20 +97,20 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ onLoginClick, onSignupCli
             ) : (
               <>
                 <a
-                  href="#"
+                  href=""
                   className="text-white block px-4 py-2 text-sm"
                   role="menuitem"
                   tabIndex={-1}
-                  onClick={handleLogInClick}
+                  onClick={() => navigate('/login')}
                 >
                   Log In
                 </a>
                 <a
-                  href="#"
+                  href=""
                   className="text-white block px-4 py-2 text-sm"
                   role="menuitem"
                   tabIndex={-1}
-                  onClick={handleSignUpClick}
+                 onClick={() => navigate('/signup')}
                 >
                   Sign Up
                 </a>

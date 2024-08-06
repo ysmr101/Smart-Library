@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import BooksSection from '../BooksSection/BooksSection'; // Adjust the path if needed
-import UsersSection from '../UsersSection/UsersSection'; // Adjust the path if needed
+import BooksSection from '../components/BooksSection/BooksSection';
+import UsersSection from '../components/UsersSection/UsersSection';
+
 
 interface Book {
   id: number;
   title: string;
   author: string;
   genre: string;
+  author_id:number
   publish_year: number;
   description: string;
   rating: number;
@@ -18,18 +20,23 @@ const AdminDashboard: React.FC = () => {
     title: '',
     genre: '',
     description: '',
-
+    author_id: 3,
     publish_year: 0,
     rating: 0,
     author: '',
-    thumbnail: '',
+
   });
 
   const [bookList, setBookList] = useState<Book[]>([]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/books/?start=0&limit=100')
+      .then((response) => response.json())
+      .then((data) => setBookList(data))
+      .catch((error) => console.error('Error loading the books:', error));
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setNewBook((prev) => ({
       ...prev,
@@ -37,26 +44,8 @@ const AdminDashboard: React.FC = () => {
     }));
   };
 
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/books/?start=0&limit=100')
-      .then((response) => response.json())
-      .then((data) => {
-        setBookList(data);
-      })
-      .catch((error) => {
-        console.error('Error loading the books:', error);
-      });
-  }, []);
-
   const handleAddBook = async () => {
-    if (
-      !newBook.title ||
-      !newBook.genre ||
-      !newBook.description ||
-      !newBook.author ||
-      !newBook.publish_year ||
-      !newBook.thumbnail
-    ) {
+    if (!newBook.title || !newBook.genre || !newBook.description || !newBook.author || !newBook.publish_year || !newBook.thumbnail) {
       alert('Please fill in all the fields');
       return;
     }
@@ -76,21 +65,8 @@ const AdminDashboard: React.FC = () => {
       }
 
       const addedBook = await response.json();
-
-      // Update the book list with the newly added book
       setBookList((prevBooks) => [...prevBooks, addedBook]);
-
-      // Clear the form
-      setNewBook({
-        title: '',
-        genre: '',
-        description: '',
-        publish_year: 0,
-        rating: 0,
-        author: '',
-        thumbnail: '',
-      });
-
+      setNewBook({ title: '', genre: '', description: '', publish_year: 0, rating: 0, author: '', thumbnail: '',author_id: 3 });
       alert('Book added successfully!');
     } catch (error) {
       console.error('Error adding book:', error);
