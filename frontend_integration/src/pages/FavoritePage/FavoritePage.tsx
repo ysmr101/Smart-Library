@@ -4,22 +4,29 @@ import Header from '../../components/Header/Header';
 import Search from '../../components/Search/Search';
 import Chatbot from '../../components/Chatbot/Chatbot';
 import FavoriteBooks from '../../components/FavoriteBooks/FavoriteBooks';
+import { useAuth } from '../../utils/Auth';
 
 const FavoritePage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [sortBy, setSortBy] = useState<string>('');
     const [genre, setGenre] = useState<string>('');
+    const { getUserInfo } = useAuth()
+    const userInfo = getUserInfo()
 
+  
 
-
-    return (
-        <div className={styles.mainPage}>
-            <Header />
-            <Search setSearchQuery={setSearchQuery} setSortBy={setSortBy} setGenre={setGenre} />
-            <FavoriteBooks searchQuery={searchQuery} user_id={'07dc4816-2d30-49d4-ad97-ed0dd0f97b7b'}/>
-            <Chatbot />
-        </div>
-    );
+        return (
+            <div className={styles.mainPage}>
+                <Header />
+                <Search setSearchQuery={setSearchQuery} setSortBy={setSortBy} setGenre={setGenre} />
+                {userInfo ? (
+                    <FavoriteBooks searchQuery={searchQuery} user_id={userInfo.user_id} />
+                ) : (
+                    window.location.href = '/login'
+                )}                
+                <Chatbot />
+            </div>
+        );
 };
 
 export default FavoritePage;
