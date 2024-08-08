@@ -2,18 +2,18 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from './Auth';
 
-interface ProtectedRouteProps {
+interface UnAuthinticatedRoute {
   component: React.ComponentType<any>;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component, ...rest }) => {
+const UnAuthinticatedRoute: React.FC<UnAuthinticatedRoute> = ({ component: Component, ...rest }) => {
   const { getUserInfo } = useAuth();
   const userInfo = getUserInfo();
-  if (!userInfo) {
+  if (userInfo) {
     return <Navigate to="/" />;
   }
 
   return <Component {...rest} />;
 };
 
-export default ProtectedRoute;
+export default UnAuthinticatedRoute;

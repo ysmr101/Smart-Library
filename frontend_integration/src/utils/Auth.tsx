@@ -1,7 +1,5 @@
-// src/hooks/useAuth.ts
-
 import { useState, useEffect, useContext, createContext, ReactNode } from 'react';
-import { fetchToken, postUser } from '../services/api'; // Import Axios instance
+import { fetchToken, postUser } from '../services/api';
 import api from '../services/api';
 import { jwtDecode } from 'jwt-decode';
 
@@ -23,11 +21,24 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
 
+
   useEffect(() => {
     const savedToken = localStorage.getItem('authToken');
     if (savedToken) {
       setToken(savedToken);
-    }
+    };
+
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'authToken') {
+        logout();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const login = async (username: string, password: string) => {
@@ -50,6 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(null);
     localStorage.removeItem('authToken');
     delete api.defaults.headers.common['Authorization'];
+    window.location.href = '/login';
   };
 
   const getUserInfo = (): UserInfo | null => {

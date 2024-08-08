@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import styles from './Books.module.css';
+import React, { useState, useEffect } from 'react';
+import styles from './FavoriteBooks.module.css';
 import StarRating from '../Rating/Rating';
 import ReactCardFlip from 'react-card-flip';
-import { fetchBooks, fetchFavorites, addFavorite, deleteFavorite } from '../../services/api';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../utils/Auth';
+import { fetchFavorites, deleteFavorite } from '../../services/api';
 import heartFull from '../../assets/heartFull.svg';
-import heartEmpty from '../../assets/heartEmpty.svg';
 
 interface Book {
     book_id: number
@@ -19,42 +16,27 @@ interface Book {
     author: string;
 }
 
-interface BooksProps {
+interface FavoriteBooksProps {
     searchQuery: string;
-    sortBy: string;
-    genre: string;
+    user_id: string;
 }
 
-const Books: React.FC<BooksProps> = ({ searchQuery, sortBy, genre }) => {
-    const { getUserInfo, token } = useAuth();
-    const userInfo = getUserInfo();
+const FavoriteBooks: React.FC<FavoriteBooksProps> = ({ searchQuery, user_id }) => {
     const [books, setBooks] = useState<Book[]>([]);
-    const [favoriteBooks, setFavoriteBooks] = useState<{ [key: number]: boolean }>({});
     const [flipStates, setFlipStates] = useState<boolean[]>([]);
-    const navigate = useNavigate();
-    const isAuthenticated = !!token;
 
     useEffect(() => {
         const getBooks = async () => {
             try {
-                const data = await fetchBooks(sortBy, genre);
+                const data = await fetchFavorites(user_id);
                 setBooks(data);
                 setFlipStates(Array(data.length).fill(false));
-
-                if (isAuthenticated && userInfo) {
-                    const favorites = await fetchFavorites(userInfo.user_id);
-                    const favoriteStatus = favorites.reduce((acc, book) => {
-                        acc[book.book_id] = true;
-                        return acc;
-                    }, {} as { [key: number]: boolean });
-                    setFavoriteBooks(favoriteStatus);
-                }
             } catch (error) {
-                console.error('Error fetching books:', error);
+                console.error('Error fetching favorites:', error);
             }
         };
         getBooks();
-    }, [sortBy, genre, isAuthenticated]);
+    }, [user_id]);
 
     const handleFlip = (index: number) => {
         const newFlipStates = [...flipStates];
@@ -62,29 +44,12 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy, genre }) => {
         setFlipStates(newFlipStates);
     };
 
-    const handleFavoriteToggle = async (book: Book) => {
-        if (!isAuthenticated) {
-            navigate('/login');
-            return;
-        }
-        if (userInfo) {
-            try {
-                if (favoriteBooks[book.book_id]) {
-                    await deleteFavorite(userInfo.user_id, book.book_id);
-                    setFavoriteBooks(prevState => ({
-                        ...prevState,
-                        [book.book_id]: false,
-                    }));
-                } else {
-                    await addFavorite(userInfo.user_id, book.book_id);
-                    setFavoriteBooks(prevState => ({
-                        ...prevState,
-                        [book.book_id]: true,
-                    }));
-                }
-            } catch (error) {
-                console.error('Error updating favorite status:', error);
-            }
+    const handleRemoveFavorite = async (book_id: number) => {
+        try {
+            await deleteFavorite(user_id, book_id);
+            setBooks(books.filter(book => book.book_id !== book_id));
+        } catch (error) {
+            console.error('Error removing favorite:', error);
         }
     };
 
@@ -105,19 +70,15 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy, genre }) => {
                                     {book.title.length > 19 ? book.title.slice(0, 19) + '...' : book.title}
                                 </h1>
                                 <div className={styles.book_header_author_and_year}>
-                                    <p className={styles.author}>
-                                        {book.author}
-                                    </p>
-                                    <p className={styles.year}>
-                                        {Math.floor(parseFloat(book.published_year))}
-                                    </p>
+                                    <p className={styles.author}>{book.author}</p>
+                                    <p className={styles.year}>{Math.floor(parseFloat(book.published_year))}</p>
                                 </div>
                             </div>
                             <button
                                 className={styles.fav_button}
-                                onClick={() => handleFavoriteToggle(book)}
+                                onClick={() => handleRemoveFavorite(book.book_id)}
                             >
-                                <img src={favoriteBooks[book.book_id] ? heartFull : heartEmpty} />
+                                <img src={heartFull} />
                             </button>
                         </div>
                         <ReactCardFlip
@@ -158,4 +119,4 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy, genre }) => {
     );
 };
 
-export default Books;
+export default FavoriteBooks;

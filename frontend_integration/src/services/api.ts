@@ -34,10 +34,16 @@ interface User {
     password: string
 }
 
-export const fetchBotRecommendation = async (query: string): Promise<string> => {
-    const response = await api.get<string>(`/query?query=${query}`);
-    return response.data
+interface Favorite {
+  favorite_id: number
+  user_id: string
+  book_id: number
 }
+
+// export const fetchBotRecommendation = async (query: string): Promise<string> => {
+//     const response = await api.get<string>(`/query?query=${query}`);
+//     return response.data
+// }
 
 export const fetchBotRecommendationsStream = async (
     query: string,
@@ -93,9 +99,14 @@ export const fetchUsers = async (): Promise<Users[]> => {
 };
 
 export const fetchBooks = async (sort: string = '', genre: string = ''): Promise<Book[]> => {
-    const response = await api.get<Book[]>(`/books/?start=${0}&limit=${100}&sort=${sort}&genre=${genre}`);
+    const response = await api.get<Book[]>(`/books/?start=${0}&limit=${500}&sort=${sort}&genre=${genre}`);
     return response.data;
 };
+
+// export const fetchBook = async (book_id: number): Promise<Book> => {
+//   const response = await api.get<Book>(`/books/${book_id}`);
+//   return response.data;
+// };
 
 export const fetchAuthor = async (author_id: number): Promise<Author> => {
     const response = await api.get<Author>(`/authors/${author_id}`);
@@ -143,6 +154,21 @@ export const deleteUser = async (user_id: string): Promise<User> => {
   return response.data
 }
 
+export const fetchFavorites = async (user_id: string): Promise<Book[]> => {
+  const response = await api.get<Book[]>(`/favorites/${user_id}`);
+  return response.data
+}
+
+export const addFavorite = async (user_id: string, book_id: number): Promise<Favorite> => {
+  const response = await api.post<Favorite>(`/favorites/${user_id}?book_id=${book_id}`);
+  return response.data
+}
+
+export const deleteFavorite = async (user_id: string, book_id: number): Promise<Favorite> => {
+  const response = await api.delete<Favorite>(`/favorites/${user_id}?book_id=${book_id}`);
+  return response.data
+}
+
 const api = axios.create({
     baseURL: 'http://localhost:8000', 
     headers: {
@@ -159,6 +185,17 @@ const api = axios.create({
       return config;
     },
     error => {
+      return Promise.reject(error);
+    }
+  );
+
+  api.interceptors.response.use(
+    response => response,
+    async error => {
+      if (error.response.status === 401) {
+        localStorage.removeItem('authToken');
+        window.location.href = '/login';
+      }
       return Promise.reject(error);
     }
   );

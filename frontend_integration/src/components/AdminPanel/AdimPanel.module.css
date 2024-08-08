@@ -172,7 +172,7 @@
 }
 .book_genre {
     color: white;
-    width: 7%;
+    width: 9%;
     height: 100%;
     overflow: scroll;
     border-top: 1px solid #ccc;
@@ -204,7 +204,7 @@
 .book_description {
 
     color: white;
-    width: 35%;
+    width: 33%;
     height: 100%;
     /* background-color: red; */
     border-top: 1px solid #ccc;

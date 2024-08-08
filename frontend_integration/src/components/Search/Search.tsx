@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styles from './Search.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../utils/Auth';
 import searchIcon from '../../assets/search.svg'
 import sortIcon from '../../assets/sort.svg'
 import favIcon from '../../assets/favorites.svg'
+import fullFavIcon from '../../assets/heartFull.svg'
 import { fetchBookRecommendation } from '../../services/api';
 
 
@@ -17,9 +18,10 @@ interface SearchProps {
 const Search: React.FC<SearchProps> = ({ setSearchQuery, setSortBy, setGenre }) => {
 
   const [isSortOpen, setIsSortOpen] = useState(false);
-  const { token, getUserInfo } = useAuth()
-  const isAuthenticated = !!token; 
+  const { getUserInfo } = useAuth()
   const userInfo = getUserInfo()
+  const location = useLocation();
+
 
   
 
@@ -39,7 +41,7 @@ const Search: React.FC<SearchProps> = ({ setSearchQuery, setSortBy, setGenre }) 
               const data = await fetchBookRecommendation(user_id);
               setGenre(data);    
           } catch (error) {
-              console.error('Error fetching books:', error);
+              console.error('Error fetching recommendation:', error);
           }
       };
       getGenre();
@@ -53,10 +55,13 @@ const Search: React.FC<SearchProps> = ({ setSearchQuery, setSortBy, setGenre }) 
   };
 
   const navigate = useNavigate()
-  const handleFav = () => {
+  const handleLog = () => {
     navigate('/login');
   };
 
+  const handleFavorites = () => {
+    navigate('/favorites')
+  }
 
     if(userInfo) {
       const { user_id, username, role} = userInfo;
@@ -74,15 +79,25 @@ const Search: React.FC<SearchProps> = ({ setSearchQuery, setSortBy, setGenre }) 
                   onChange={handleSearchChange}
               />
             </div>
-            <button className={styles.sort_button} onClick={handleSort}>
-              <img src={sortIcon}/>
-            </button>
+            {location.pathname !== '/favorites'? (
+              <button className={styles.sort_button} onClick={handleSort}>
+                <img src={sortIcon}/>
+              </button>            
+            ) : (
+              <button className={styles.sort_button}>
+                <img src={sortIcon}/>
+              </button>
+              )
+            }
             {isSortOpen && (
                 <div className={styles.sort_window}>
+                  <button className={styles.sort_type} onClick={() => handleSortChange('default')}>
+                    Default
+                  </button>
                   <button className={styles.sort_type} onClick={() => handleSortChange('most_trending')}>
                     Most Trending
                   </button>
-                  <button className={styles.sort_type}>
+                  <button className={styles.sort_type} onClick={() => handleSortChange('recently_added')}>
                     Recently Added
                   </button>
                   <button className={styles.sort_type} onClick={() => handleGenre(user_id)}>
@@ -103,9 +118,14 @@ const Search: React.FC<SearchProps> = ({ setSearchQuery, setSortBy, setGenre }) 
                 </div>
             )}
           </div>
-            <button className={styles.search_fav_button}>
-            <img src={favIcon}/>
-          </button>
+            <button className={styles.search_fav_button} onClick={handleFavorites}>
+            {location.pathname === '/favorites'? (
+              <img src={fullFavIcon}/>
+            ) : (
+              <img src={favIcon}/>
+            )
+          }
+            </button>
         </div>
     );
     }
@@ -128,13 +148,16 @@ const Search: React.FC<SearchProps> = ({ setSearchQuery, setSortBy, setGenre }) 
             </button>
             {isSortOpen && (
                 <div className={styles.sort_window}>
+                  <button className={styles.sort_type} onClick={() => handleSortChange('default')}>
+                    Default
+                  </button>
                   <button className={styles.sort_type} onClick={() => handleSortChange('most_trending')}>
                     Most Trending
                   </button>
-                  <button className={styles.sort_type}>
+                  <button className={styles.sort_type} onClick={() => handleSortChange('recently_added')}>
                     Recently Added
                   </button>
-                  <button className={styles.sort_type} onClick={() => handleSortChange('recommended')}>
+                  <button className={styles.sort_type} onClick={handleLog}>
                     Recommended
                   </button>
                   <button className={styles.sort_type} onClick={() => handleSortChange('most_recent')}>
@@ -152,7 +175,7 @@ const Search: React.FC<SearchProps> = ({ setSearchQuery, setSortBy, setGenre }) 
                 </div>
             )}
           </div>
-          <button className={styles.search_fav_button} onClick={handleFav}>
+          <button className={styles.search_fav_button} onClick={handleLog}>
             <img src={favIcon}/>
           </button>
         </div>
