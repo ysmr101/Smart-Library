@@ -85,7 +85,6 @@ const Search: React.FC<SearchProps> = ({ setSearchQuery, setSortBy, setGenre }) 
               </button>            
             ) : (
               <button className={styles.sort_button}>
-                <img src={sortIcon}/>
               </button>
               )
             }
