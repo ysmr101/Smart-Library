@@ -35,3 +35,9 @@ class User_preferences_create(BaseModel):
 
 class QueryModel(BaseModel):
     query: str
+
+
+class Favorites(BaseModel):
+    favorite_id : int
+    user_id: str
+    book_id: int

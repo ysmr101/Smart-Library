@@ -23,3 +23,11 @@ class User_preference(Base):
     preference_id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(String, index=True)
     preferences = Column(String, index=True)
+
+
+class Favorites(Base):
+    __tablename__ = "favorites"
+
+    favorite_id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(String)
+    book_id = Column(Integer)

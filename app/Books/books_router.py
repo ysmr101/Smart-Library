@@ -72,3 +72,23 @@ async def delete_book(
 )
 async def recommend_book(user_id: str, db: Session = Depends(get_db)):
     return books_crud.recommend_book(db, user_id)
+
+
+@app.get("/favorites/{user_id}", tags=["favorites"])
+async def get_favorites( _: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=["Admin", "User"]))], 
+                        user_id: str, db: Session = Depends(get_db)):
+
+    return books_crud.get_favorites(db, user_id)
+
+@app.post("/favorites/{user_id}", tags=["favorites"])
+async def add_favorite( _: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=["Admin", "User"]))], 
+                        user_id: str, book_id: int, db: Session = Depends(get_db)):
+
+    return books_crud.add_favorite(db, user_id, book_id)
+
+@app.delete("/favorites/{user_id}", tags=["favorites"])
+async def delete_favorite( _: Annotated[bool, Depends(auth.RoleChecker(allowed_roles=["Admin", "User"]))], 
+                        user_id: str, book_id: int, db: Session = Depends(get_db)):
+
+    return books_crud.delete_favorite(db, user_id, book_id)
+

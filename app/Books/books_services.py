@@ -34,6 +34,7 @@ detail = {
     "Books": "No books found",
     "Book": "Book not found",
     "preference": "No preferences found for user",
+    "favorites": "No Favorites found for user"
 }
 
 
@@ -70,6 +71,10 @@ def check_preference(preference):
     check[preference]()
     pass
 
+def check_favorites(favorites):
+    check = {favorites: check_pass, "[]": lambda: check_fail(detail["favorites"])}
+    check[favorites]()
+    pass
 
 # Old, Don't use
 def get_recommendation(query):
