@@ -46,8 +46,8 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home books={books} loading={loading} searchQuery={searchQuery} setSearchQuery={setSearchQuery} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />} />
           <Route path="/admin" element={getRole() === 'Admin' ? <AdminDashboard /> : <Home books={books} loading={loading} searchQuery={searchQuery} setSearchQuery={setSearchQuery} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />} />
-          <Route path="/login" element={<LoginForm onLoginSuccess={(token, role) => login(token, role)} />} />
-          <Route path="/signup" element={<SignupForm onSignupSuccess={(token, role) => login(token, role)} />} />
+          <Route path="/login" element={<LoginForm onLoginSuccess={(token, role) => login(token)} />} />
+          <Route path="/signup" element={<SignupForm onSignupSuccess={(token, role) => login(token)} />} />
           <Route path="/profile" element={<ProfileInfo />} />
         </Routes>
       </div>

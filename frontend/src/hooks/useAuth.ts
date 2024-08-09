@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import {jwtDecode} from 'jwt-decode';
 
 interface AuthData {
   token: string;
@@ -8,29 +9,26 @@ interface AuthData {
 export const useAuth = () => {
   const [authData, setAuthData] = useState<AuthData | null>(null);
 
-
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    const storedRole = localStorage.getItem('role');
-    if (storedToken && storedRole) {
-      setAuthData({ token: storedToken, role: storedRole });
+    if (storedToken) {
+      const decodedToken: any = jwtDecode(storedToken);
+      const role = decodedToken.role;
+      setAuthData({ token: storedToken, role });
     }
   }, []);
 
-
-  const login = (token: string, role: string) => {
+  const login = (token: string) => {
+    const decodedToken: any = jwtDecode(token);
+    const role = decodedToken.role;
     localStorage.setItem('token', token);
-    localStorage.setItem('role', role);
     setAuthData({ token, role });
   };
 
-
   const logout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('role');
     setAuthData(null);
   };
-
 
   const getRole = () => authData?.role;
 

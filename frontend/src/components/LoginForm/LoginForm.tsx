@@ -49,7 +49,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         const role = decoded.role;
 
         localStorage.setItem('token', token);
-        localStorage.setItem('role', role);
+        // localStorage.setItem('role', role);
         setSuccess('Login successful!');
         setError('');
         setTimeout(() => {
