@@ -21,9 +21,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
-      const decodedToken: any = jwtDecode(storedToken);
-      const role = decodedToken.role;
-      setAuthData({ token: storedToken, role });
+      try {
+        const decodedToken: any = jwtDecode(storedToken);
+        const currentTime = Math.floor(Date.now() / 1000);
+        const tokenExpiration = decodedToken.exp;
+
+        console.log(currentTime)
+        console.log(tokenExpiration)
+        console.log(currentTime  > tokenExpiration)
+
+        if (currentTime > tokenExpiration) {
+          localStorage.removeItem('token');
+          setAuthData(null);
+          return;
+        }
+
+
+        const role = decodedToken.role;
+        setAuthData({ token: storedToken, role });
+
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+        localStorage.removeItem('token');
+        setAuthData(null);
+      }
     }
   }, []);
 

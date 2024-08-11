@@ -4,7 +4,7 @@ import {jwtDecode} from 'jwt-decode';
 import {useNavigate} from "react-router-dom";
 
 interface LoginFormProps {
-  onLoginSuccess: (token: string, role: string) => void;
+  onLoginSuccess: (token: string) => void;
 }
 
 interface DecodedToken {
@@ -49,12 +49,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         const role = decoded.role;
         setSuccess('Login successful!');
         setError('');
-        setTimeout(() => {
-          onLoginSuccess(token, role);
-        }, 3000);
+        onLoginSuccess(token);
+
 
         navigate('/');
-        // window.location.reload();
+        window.location.reload();
         console.log('Login successful, token:', token);
       } else {
         const errorData = await response.json();

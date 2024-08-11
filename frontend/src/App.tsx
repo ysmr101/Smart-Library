@@ -4,12 +4,13 @@ import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom
 import './App.css';
 import Home from './Pages/Home';
 import AdminDashboard from './Pages/AdminDashboard';
-import LoginForm from './components/LoginForm/LoginForm';
-import SignupForm from './Pages/Signup';
+import Signup from './Pages/Signup';
+import Login from './Pages/Login';
 import ProfileInfo from './Pages/ProfileInfo';
 import Header from './components/Header/Header';
 import { useAuth } from './hooks/useAuth';
-import ProtectedRoute from './hooks/ProtectedRoute'; // Import the ProtectedRoute component
+import ProtectedRoute from './hooks/ProtectedRoute';
+import AuthUsersRoute from './hooks/AuthUsersRoute';
 
 interface Book {
   id: number;
@@ -70,8 +71,8 @@ const App: React.FC = () => {
           />
 
 
-          <Route path="/login" element={<LoginForm onLoginSuccess={(token, role) => login(token)} />} />
-          <Route path="/signup" element={<SignupForm onSignupSuccess={(token, role) => login(token)} />} />
+          <Route path="/login" element={<AuthUsersRoute><Login onLoginSuccess={(token) => login(token)} /></AuthUsersRoute>} />
+          <Route path="/signup" element={<AuthUsersRoute><Signup onSignupSuccess={(token) => login(token)} /></AuthUsersRoute>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
 

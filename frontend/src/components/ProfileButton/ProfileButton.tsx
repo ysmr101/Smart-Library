@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Profile from '../../assets/Profile.svg';
-import { useNavigate } from 'react-router-dom'; // Add useNavigate for routing
-import { useAuth } from '../../hooks/useAuth'; // Assuming you have a custom hook for auth
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
-interface ProfileButtonProps {
-  // Include any props you need here, if required
-}
 
-const ProfileButton: React.FC<ProfileButtonProps> = () => {
+
+const ProfileButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { authData, logout, getRole } = useAuth(); // Use your auth context/hook
+  const { authData, logout, getRole } = useAuth();
   const navigate = useNavigate();
 
   const toggleDropdown = () => {
@@ -20,7 +18,7 @@ const ProfileButton: React.FC<ProfileButtonProps> = () => {
   const handleLogoutClick = () => {
     logout();
     setIsOpen(false);
-    navigate('/'); // Redirect to home or login page after logout
+    navigate('/');
     window.location.reload()
   };
 
@@ -36,8 +34,8 @@ const ProfileButton: React.FC<ProfileButtonProps> = () => {
     };
   }, []);
 
-  const isAuthenticated = !!authData; // Check if the user is authenticated
-  const isAdmin = getRole() === 'Admin'; // Check if the user's role is admin
+  const isAuthenticated = !!authData;
+  const isAdmin = getRole() === 'Admin';
 
   return (
     <div className="relative inline-block text-center" ref={dropdownRef}>

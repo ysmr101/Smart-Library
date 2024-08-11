@@ -1,88 +1,97 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-// import { useAuth } from '../hooks/useAuth';
+import {jwtDecode} from 'jwt-decode';
+import {useNavigate} from "react-router-dom";
 
-const Login: React.FC = () => {
+interface LoginProps {
+  onLoginSuccess: (token: string) => void;
+}
+
+interface DecodedToken {
+  role: string;
+}
+
+const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  // const { login } = useAuth();
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
- const bodyData = new URLSearchParams({
-      grant_type: 'password',
-      username: userName,
+
+     const bodyData = JSON.stringify({
+      user_name: userName,
       password: password,
-      scope: '',
-      client_id: 'string',
-      client_secret: 'string',
     });
     try {
-      // Simulate API call for login
-     const response = await fetch('http://127.0.0.1:8000/users/login', {
+      const response = await fetch('http://127.0.0.1:8000/users/login', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: bodyData.toString(),
+        body: bodyData,
       });
 
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
+      if (response.ok) {
+        const data = await response.json();
+        const token = data.access_token;
 
-      const data = await response.json();
-      // login(data.token);
-      navigate('/'); // Redirect to home page on successful login
-    } catch (error) {
-      console.error('Login error:', error);
-      alert('Login failed. Please check your credentials.');
+
+        const decoded: DecodedToken = jwtDecode(token);
+        console.log(decoded.role)
+        const role = decoded.role;
+        setSuccess('Login successful!');
+        setError('');
+        onLoginSuccess(token);
+
+
+        navigate('/');
+        window.location.reload();
+        console.log('Login successful, token:', token);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Login failed');
+        setSuccess('');
+        console.error('Login failed:', errorData);
+      }
+    } catch (err) {
+      console.error('Error during login:', err);
+      setError('An error occurred during login.');
+      setSuccess('');
     }
   };
 
   return (
-    <div className="bg-custom-bg h-screen flex items-center justify-center">
-      <div className="bg-gray-800 p-8 rounded-md shadow-lg w-96">
-        <h2 className="text-white text-2xl mb-6">Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="username" className="text-gray-400 block mb-2">
-              Username
-            </label>
-            <input
+      <div className="flex-grow flex items-center justify-center">
+        <form className="bg-custom-blue p-6 rounded-md w-6/12" onSubmit={handleSubmit}>
+          <h2 className="text-white text-xl mb-4 flex justify-center">Log In</h2>
+          {error && <div className="text-red-500 mb-4">{error}</div>}
+          {success && <div className="text-green-500 mb-4">{success}</div>}
+          <label className="block text-white">User Name</label>
+          <input
               type="text"
-              id="username"
+              className="w-full p-2 mb-4 border-2 rounded-md text-white bg-custom-blue"
+              placeholder="User123"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
-              className="bg-gray-700 text-white w-full px-3 py-2 rounded"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="text-gray-400 block mb-2">
-              Password
-            </label>
-            <input
+          />
+          <label className="block text-white">Password</label>
+          <input
               type="password"
-              id="password"
+              className="w-full p-2 mb-4 border-2 rounded-md text-white bg-custom-blue"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-gray-700 text-white w-full px-3 py-2 rounded"
-              required
-            />
+          />
+          <div className="flex justify-center">
+            <button type="submit" className="bg-custom-teal text-white p-2 rounded-md">
+              Log In
+            </button>
           </div>
-          <button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full"
-          >
-            Log In
-          </button>
         </form>
       </div>
-    </div>
   );
 };
 

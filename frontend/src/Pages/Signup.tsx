@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {useNavigate} from "react-router-dom";
 
-interface SignupFormProps {
-  onSignupSuccess: (token: string, role: string) => void;
+interface SignupProps {
+  onSignupSuccess: (token: string) => void;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess }) => {
+const Signup: React.FC<SignupProps> = ({ onSignupSuccess }) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,10 +14,10 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const bodyData = {
+    const bodyData = JSON.stringify({
       user_name: userName,
       password: password,
-    };
+    });
 
     try {
       const response = await fetch('http://127.0.0.1:8000/users/register', {
@@ -26,20 +26,19 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess }) => {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(bodyData),
+        body: bodyData,
       });
 
       if (response.ok) {
         const data = await response.json();
         const token = data.token;
-        const role = data.role;
-        localStorage.setItem('token', token);
-        localStorage.setItem('role', role);
+
+
         setSuccess('Registration successful!');
         setError('');
         console.log('Registration successful:', data);
         setTimeout(() => {
-          onSignupSuccess(token, role);
+          onSignupSuccess(token);
         }, 1000);
         navigate('/');
         window.location.reload();
@@ -88,5 +87,5 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess }) => {
   );
 };
 
-export default SignupForm;
+export default Signup;
 
