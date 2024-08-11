@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import './App.css';
 import Home from './Pages/Home';
 import AdminDashboard from './Pages/AdminDashboard';
@@ -8,6 +9,8 @@ import SignupForm from './Pages/Signup';
 import ProfileInfo from './Pages/ProfileInfo';
 import Header from './components/Header/Header';
 import { useAuth } from './hooks/useAuth';
+import ProtectedRoute from './hooks/ProtectedRoute'; // Import the ProtectedRoute component
+
 interface Book {
   id: number;
   thumbnail: string;
@@ -18,12 +21,13 @@ interface Book {
   rating: number;
   genre: string;
 }
+
 const App: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('');
-  const { login, getRole } = useAuth();
+  const { login, authData } = useAuth();
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/books/?start=0&limit=100')
@@ -36,7 +40,6 @@ const App: React.FC = () => {
         console.error('Error loading the books:', error);
         setLoading(false);
       });
-
   }, []);
 
   return (
@@ -45,14 +48,38 @@ const App: React.FC = () => {
         <Header />
         <Routes>
           <Route path="/" element={<Home books={books} loading={loading} searchQuery={searchQuery} setSearchQuery={setSearchQuery} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />} />
-          <Route path="/admin" element={getRole() === 'Admin' ? <AdminDashboard /> : <Home books={books} loading={loading} searchQuery={searchQuery} setSearchQuery={setSearchQuery} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />} />
+
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="Admin">
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfileInfo />
+              </ProtectedRoute>
+            }
+          />
+
+
           <Route path="/login" element={<LoginForm onLoginSuccess={(token, role) => login(token)} />} />
           <Route path="/signup" element={<SignupForm onSignupSuccess={(token, role) => login(token)} />} />
-          <Route path="/profile" element={<ProfileInfo />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+
       </div>
+
     </Router>
   );
 };
 
 export default App;
+

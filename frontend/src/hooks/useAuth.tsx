@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import {jwtDecode} from 'jwt-decode';
 
 interface AuthData {
@@ -6,7 +6,16 @@ interface AuthData {
   role: string;
 }
 
-export const useAuth = () => {
+interface AuthContextProps {
+  authData: AuthData | null;
+  login: (token: string) => void;
+  logout: () => void;
+  getRole: () => string | undefined;
+}
+
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [authData, setAuthData] = useState<AuthData | null>(null);
 
   useEffect(() => {
@@ -32,5 +41,17 @@ export const useAuth = () => {
 
   const getRole = () => authData?.role;
 
-  return { authData, login, logout, getRole };
+  return (
+    <AuthContext.Provider value={{ authData, login, logout, getRole }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = (): AuthContextProps => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };

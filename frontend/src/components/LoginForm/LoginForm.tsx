@@ -47,9 +47,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         const decoded: DecodedToken = jwtDecode(token);
         console.log(decoded.role)
         const role = decoded.role;
-
-        localStorage.setItem('token', token);
-        // localStorage.setItem('role', role);
         setSuccess('Login successful!');
         setError('');
         setTimeout(() => {

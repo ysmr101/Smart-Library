@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {useNavigate} from "react-router-dom";
 
 interface SignupFormProps {
-  onSignupSuccess: (token: string, role: string) => void; // Updated signature
+  onSignupSuccess: (token: string, role: string) => void;
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess }) => {

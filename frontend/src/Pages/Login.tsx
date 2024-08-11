@@ -1,12 +1,12 @@
-// src/pages/Login.tsx
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+// import { useAuth } from '../hooks/useAuth';
 
 const Login: React.FC = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useAuth();
+  // const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,7 +35,7 @@ const Login: React.FC = () => {
       }
 
       const data = await response.json();
-      login(data.token, userName);
+      // login(data.token);
       navigate('/'); // Redirect to home page on successful login
     } catch (error) {
       console.error('Login error:', error);
