@@ -15,11 +15,6 @@ interface Book {
 }
 const Home: React.FC<{ books: Book[]; loading: boolean; searchQuery: string; setSearchQuery: any; selectedFilter: string; setSelectedFilter: any; }> = ({ books, loading, searchQuery, setSearchQuery, selectedFilter, setSelectedFilter }) => {
 
-// const handleSearchChange = (query: string) => {
-//     setSearchQuery(query);
-//   };
-
-
   const getSortedBooks = (books: Book[]) => {
     switch (selectedFilter) {
       case 'Top rated':
@@ -50,7 +45,7 @@ const Home: React.FC<{ books: Book[]; loading: boolean; searchQuery: string; set
         ) : (
           <div className="flex place-content-center mt-4">
             <div className="grid grid-cols-4 gap-4 w-11/12" id="book-list">
-              {filteredBooks.map((book) => (
+              {filteredBooks.map((book,index) => (
                 <div key={book.id}>
                   <BookCard
                     thumbnail={book.thumbnail}
@@ -59,6 +54,7 @@ const Home: React.FC<{ books: Book[]; loading: boolean; searchQuery: string; set
                     publish_year={book.publish_year}
                     genre={book.genre}
                     rating={book.rating}
+                    index={index}
                   />
                 </div>
               ))}
