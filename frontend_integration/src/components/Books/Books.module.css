@@ -115,16 +115,35 @@
 }
 
 .book_thumbnail {
-    height: 95%;
+    height: 20em;
     border-radius: 5px;
-    margin-top: 0%;
-    margin-bottom: 0%;
     border: 1px solid #15171B;
+    width: 100%;
+}
 
+.book_description_section {
+    height: 20.28em;
+    background-color: #15171B;
+    text-align: center;
+    border: 0.1px solid white;
+    border-radius: 5px;
+}
+
+.book_description {
+    color: white;
+    margin: 5%;
+    height: 93%;
+    /* background-color: red; */
+    overflow-y: scroll;
+    font-size: 14px;
+}
+
+.book_description:hover {
+    cursor: pointer;
 }
 
 .book_footer {
-    height: 10%;
+    height: 2em;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -165,23 +184,3 @@
     margin-left: 5%;
 }
 
-.book_description_section {
-    height: 20em;
-    background-color: #445A9A;
-    text-align: center;
-    border: 1px solid #15171B;
-    border-radius: 5px;
-}
-
-.book_description {
-    color: white;
-    margin: 5%;
-    height: 93%;
-    /* background-color: red; */
-    overflow-y: scroll;
-    font-size: 14px;
-}
-
-.book_description:hover {
-    cursor: pointer;
-}

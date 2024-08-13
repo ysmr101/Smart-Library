@@ -6,9 +6,9 @@ import authIcon from '../../assets/auth.svg'
 import authIconLogged from '../../assets/authLogged.svg'
 
 const Header: React.FC = () => {
-  const { token, logout } = useAuth();
-  const isAuthenticated = !!token; 
+  const { logout, getUserInfo } = useAuth();
   const navigate = useNavigate();
+  const userInfo = getUserInfo()
 
   const navigateToLogin = () => {
     navigate('/login');
@@ -38,20 +38,25 @@ const Header: React.FC = () => {
       <button className={styles.title_button} onClick={navigateToMain}>
         <h1 className={styles.title}>Smart Library</h1>
       </button>
-      {isAuthenticated ? (
+      {userInfo ? (
         <>
           <button className={styles.auth_button} onClick={handleAuth}>
             <img src={authIconLogged}/>
           </button>
           {isAuthOpen && (
-            <div className={styles.auth_window_logged}>
-              <button className={styles.profile}>
+            <div className={styles.auth_window} id={styles.logged}>
+              <button className={styles.auth_window_section}>
                 Profile
               </button>
-              <button className={styles.admin_panel} onClick={navigateToPanel}>
+              {userInfo.role === 'Admin' ? (
+              <button className={styles.auth_window_section} onClick={navigateToPanel}>
                 Admin Panel
               </button>
-              <button className={styles.sign_out} onClick={handleLogout}>
+              ) : (
+                <></>
+              )
+            }
+              <button className={styles.auth_window_section} id={styles.sign_out} onClick={handleLogout}>
                 Sign Out
               </button>
             </div>
@@ -65,10 +70,10 @@ const Header: React.FC = () => {
 
           {isAuthOpen && (
             <div className={styles.auth_window}>
-              <button className={styles.log_in} onClick={navigateToLogin}>
+              <button className={styles.auth_window_section} onClick={navigateToLogin}>
                 Log in
               </button>
-              <button className={styles.sign_up} onClick={navigateToLogin}>
+              <button className={styles.auth_window_section} id={styles.signu_p} onClick={navigateToLogin}>
                 Sign up
               </button>
             </div>

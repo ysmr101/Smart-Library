@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(null);
     localStorage.removeItem('authToken');
     delete api.defaults.headers.common['Authorization'];
-    window.location.href = '/login';
+    window.location.href = '/';
   };
 
   const getUserInfo = (): UserInfo | null => {

@@ -67,6 +67,7 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy, genre }) => {
             navigate('/login');
             return;
         }
+        
         if (userInfo) {
             try {
                 if (favoriteBooks[book.book_id]) {
@@ -120,18 +121,21 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy, genre }) => {
                                 <img src={favoriteBooks[book.book_id] ? heartFull : heartEmpty} />
                             </button>
                         </div>
-                        <ReactCardFlip
-                            isFlipped={flipStates[index]}
-                            flipDirection="horizontal"
-                            infinite
-                            flipSpeedFrontToBack={0.5}
-                            flipSpeedBackToFront={0.5}
-                        >
-                            <div
-                                className={styles.book_body_and_footer}
-                                onClick={() => handleFlip(index)}
-                            >
+
+                            <div className={styles.book_body_and_footer} onClick={() => handleFlip(index)}>
+                                <ReactCardFlip
+                                isFlipped={flipStates[index]}
+                                flipDirection="horizontal"
+                                infinite
+                                flipSpeedFrontToBack={0.5}
+                                flipSpeedBackToFront={0.5}
+                                >
                                 <img src={book.thumbnail} alt={book.title} className={styles.book_thumbnail} />
+                                <div className={styles.book_description_section}>
+                                    <p className={styles.book_description}>{book.description}</p>
+                                </div>
+                                
+                                </ReactCardFlip>
                                 <div className={styles.book_footer}>
                                     <p className={styles.genre}>{book.genre}</p>
                                     <div className={styles.rating}>
@@ -144,13 +148,7 @@ const Books: React.FC<BooksProps> = ({ searchQuery, sortBy, genre }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div
-                                className={styles.book_description_section}
-                                onClick={() => handleFlip(index)}
-                            >
-                                <p className={styles.book_description}>{book.description}</p>
-                            </div>
-                        </ReactCardFlip>
+                            
                     </div>
                 ))}
             </div>
